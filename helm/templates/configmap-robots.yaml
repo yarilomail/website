@@ -1,0 +1,11 @@
+{{- if .Values.noindex }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "yarilomail-web.fullname" . }}-robots
+  labels:
+    {{- include "yarilomail-web.labels" . | nindent 4 }}
+data:
+  noindex.conf: |
+    add_header X-Robots-Tag "noindex, nofollow" always;
+{{- end }}

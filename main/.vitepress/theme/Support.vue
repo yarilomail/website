@@ -3,7 +3,7 @@
 <template>
   <h1 class="text-4xl text-brand font-bold my-4 text-center">Support</h1>
   <p class="text-xl text-center max-w-3xl mx-auto text-gray-700">
-    yarilomail is a community-driven open-source project. When reporting a problem,
+    YariloMail is a community-driven open-source project. When reporting a problem,
     please first upgrade to the latest release and check whether the issue is
     reproducible there.
   </p>

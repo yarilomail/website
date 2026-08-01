@@ -12,10 +12,6 @@ metadata:
     {{- if .Values.cloudflareWhitelist.enabled }}
     nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.cloudflareWhitelist.ipRanges | quote }}
     {{- end }}
-    {{- if .Values.noindex }}
-    nginx.ingress.kubernetes.io/server-snippet: |
-      add_header X-Robots-Tag "noindex, nofollow" always;
-    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- if .Values.ingress.tls }}

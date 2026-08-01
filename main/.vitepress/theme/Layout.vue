@@ -21,9 +21,9 @@ const nav = (theme.value.nav as NavItem[]) || []
         <nav class="flex items-center justify-between py-4">
           <!-- Left: logo + wordmark -->
           <a :href="withBase('/')" class="flex items-center gap-2 no-underline">
-            <img src="/favicon.svg" alt="yarilomail" class="h-9 w-9" />
+            <img src="/favicon.svg" alt="YariloMail" class="h-9 w-9" />
             <span class="text-2xl font-extrabold tracking-tight">
-              yarilo<span class="text-brand">mail</span>
+              Yarilo<span class="text-brand">Mail</span>
             </span>
           </a>
 
@@ -54,7 +54,7 @@ const nav = (theme.value.nav as NavItem[]) || []
     </div>
 
     <footer class="mt-auto w-full py-6 text-center text-sm text-gray-500 border-t border-gray-200">
-      &copy; yarilomail &middot; open-source mail server &middot;
+      &copy; YariloMail &middot; open-source mail server &middot;
       <a class="underline hover:text-brand" href="https://github.com/yarilomail/website" rel="noopener" target="_blank">source</a>
     </footer>
   </div>

@@ -1,7 +1,24 @@
 # yarilomail website
 
-Source for the [yarilomail.org](https://yarilomail.org) website, built with
-[VitePress](https://vitepress.dev/).
+<table><tr>
+<td><img src="https://raw.githubusercontent.com/yarilomail/website/main/doc/logo.svg" width="110" alt="yarilomail logo"/></td>
+<td>
+
+Source for the [yarilomail.org](https://yarilomail.org) website — the
+open-source mail server — built with [VitePress](https://vitepress.dev/) and
+self-hosted on Kubernetes.
+
+Licensed under **AGPLv3** — see [LICENSE](LICENSE).
+
+[![CI](https://github.com/yarilomail/website/actions/workflows/ci.yml/badge.svg)](https://github.com/yarilomail/website/actions/workflows/ci.yml)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](LICENSE)
+[![VitePress](https://img.shields.io/badge/VitePress-1.x-5c73e7?logo=vite&logoColor=white)](https://vitepress.dev/)
+[![Container](https://img.shields.io/badge/ghcr.io-website-blue?logo=github)](https://github.com/yarilomail/website/pkgs/container/website)
+
+</td>
+</tr></table>
+
+---
 
 ## Structure
 

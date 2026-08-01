@@ -19,8 +19,9 @@ const nav = (theme.value.nav as NavItem[]) || []
       <!-- Navbar -->
       <header class="w-full border-b border-gray-200">
         <nav class="flex items-center justify-between py-4">
-          <!-- Left: wordmark -->
+          <!-- Left: logo + wordmark -->
           <a :href="withBase('/')" class="flex items-center gap-2 no-underline">
+            <img src="/favicon.svg" alt="yarilomail" class="h-9 w-9" />
             <span class="text-2xl font-extrabold tracking-tight">
               yarilo<span class="text-brand">mail</span>
             </span>

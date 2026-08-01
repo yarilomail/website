@@ -1,0 +1,11 @@
+image:
+  tag: "0.1.0"       # bumped by CI on push to develop
+
+replicaCount: 1
+
+ingress:
+  host: wwwdev.yarilomail.org
+  tlsSecretName: wwwdev-yarilomail-org-tls
+
+# Keep staging out of search engines.
+noindex: true

@@ -27,8 +27,24 @@ npm run -w main docs:preview  # preview the production build
 
 ## Deployment
 
-- `develop` branch → wwwdev.yarilomail.org (staging)
-- `main` branch → yarilomail.org (production)
+GitOps via ArgoCD on the microk8s cluster. The site is built into a small
+`nginx:alpine` image, pushed to GHCR, and rolled out by ArgoCD.
 
-Deployment runs via GitHub Actions and is gated on the `DEPLOY_KEY` secret; until
-that is configured the workflow only builds the site.
+- `main` branch → `yarilomail.org` (production, `helm_values/values-prod.yaml`)
+- `develop` branch → `wwwdev.yarilomail.org` (staging, `helm_values/values-staging.yaml`)
+
+Flow: push → `.github/workflows/deploy.yml` builds `Dockerfile`, pushes
+`ghcr.io/yarilomail/website:<sha>`, and bumps the image tag in the matching
+values file. ArgoCD (`argocd-app.yaml`) syncs the change into namespace
+`yarilomail`.
+
+TLS is issued by cert-manager (`letsencrypt-prod` ClusterIssuer, Cloudflare
+DNS-01). The origin sits behind Cloudflare; the ingress is restricted to
+Cloudflare IP ranges. Staging serves `X-Robots-Tag: noindex`.
+
+### Layout
+
+- `Dockerfile`, `deploy/nginx.conf` — image build + static serving
+- `helm/` — chart (Deployment, Service, Ingress)
+- `helm_values/` — per-environment values (prod, staging)
+- `argocd-app.yaml` — ArgoCD Applications (prod + staging)

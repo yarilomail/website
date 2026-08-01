@@ -1,0 +1,10 @@
+image:
+  tag: "0.1.0"       # bumped by CI on push to main
+
+replicaCount: 2
+
+ingress:
+  host: yarilomail.org
+  tlsSecretName: yarilomail-org-tls
+
+noindex: false

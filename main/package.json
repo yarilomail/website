@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/yarilomail/website.git"
   },
-  "license": "CC-BY-4.0",
+  "license": "AGPL-3.0-or-later",
   "author": "yarilomail Authors",
   "type": "commonjs",
   "scripts": {

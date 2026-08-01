@@ -5,6 +5,7 @@ import News from '../components/News.vue'
 <template>
   <!-- Hero -->
   <section class="text-center flex flex-col items-center gap-6 py-8">
+    <img src="/favicon.svg" alt="yarilomail" class="h-24 w-24" />
     <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
       yarilo<span class="text-brand">mail</span>
     </h1>

@@ -1,0 +1,97 @@
+name: Deploy
+
+# main    -> build image, bump helm_values/values-prod.yaml    (ArgoCD -> yarilomail.org)
+# develop -> build image, bump helm_values/values-staging.yaml (ArgoCD -> wwwdev.yarilomail.org)
+#
+# The tag-bump commit only touches helm_values/**, which is path-ignored here,
+# so it does not retrigger this workflow. ArgoCD picks up the change and syncs.
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - "helm_values/**"
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE: ghcr.io/${{ github.repository_owner }}/website
+
+jobs:
+  build:
+    name: Build & Push
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      packages: write
+    concurrency:
+      group: deploy-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=sha,prefix=,format=short
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Update image tag in values
+        run: |
+          set -e
+          SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            FILE=helm_values/values-prod.yaml
+          else
+            FILE=helm_values/values-staging.yaml
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "${{ github.ref_name }}"
+            git reset --hard "origin/${{ github.ref_name }}"
+
+            sed -i "s/^  tag: .*/  tag: \"${SHA}\"/" "${FILE}"
+            git add "${FILE}"
+
+            if git diff --cached --quiet; then
+              echo "Values already at ${SHA}, nothing to commit"
+              exit 0
+            fi
+
+            git commit -m "ci: update website image tag to ${SHA} [skip ci]"
+
+            if git push origin "HEAD:${{ github.ref_name }}"; then
+              echo "Push succeeded on attempt ${attempt}"
+              exit 0
+            fi
+            echo "Push attempt ${attempt} failed, branch moved — retrying"
+            sleep $((attempt * 2))
+          done
+          echo "Push failed after 5 attempts"
+          exit 1

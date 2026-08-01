@@ -1,0 +1,66 @@
+import { defineConfig } from 'vitepress'
+
+import UnoCSS from 'unocss/vite'
+import unoConfig from './unocss.config.mts'
+
+const hostname = 'https://yarilomail.org'
+const description =
+  'yarilomail is an open-source, high-performance IMAP/POP3 mail server — a drop-in compatible mail backend built for scalable, standards-compliant email hosting.'
+
+// https://vitepress.dev/reference/site-config
+export default defineConfig({
+  title: 'yarilomail | Open-source IMAP mail server',
+  description,
+  lang: 'en-US',
+  base: '/',
+  cleanUrls: true,
+  metaChunk: true,
+  lastUpdated: true,
+
+  sitemap: {
+    hostname,
+  },
+
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
+    ['meta', { name: 'theme-color', content: '#e0701a' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'yarilomail' }],
+    ['meta', { property: 'og:title', content: 'yarilomail | Open-source IMAP mail server' }],
+    ['meta', { property: 'og:description', content: description }],
+    ['meta', { property: 'og:url', content: hostname }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+  ],
+
+  transformPageData(pageData) {
+    // Per-page canonical link for clean, duplicate-free indexing.
+    const canonical = `${hostname}/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(['link', { rel: 'canonical', href: canonical }])
+  },
+
+  themeConfig: {
+    nav: [
+      { text: 'Documentation', link: 'https://github.com/yarilomail' },
+      { text: 'Support', link: '/support' },
+      { text: 'Security', link: '/security' },
+      { text: 'GitHub', link: 'https://github.com/yarilomail' },
+    ],
+  },
+
+  vite: {
+    optimizeDeps: {
+      exclude: ['vitepress'],
+    },
+    server: {
+      hmr: {
+        overlay: false,
+      },
+    },
+    plugins: [
+      UnoCSS(unoConfig),
+    ],
+  },
+})

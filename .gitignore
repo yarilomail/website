@@ -1,0 +1,5 @@
+**/.vitepress/dist
+**/.vitepress/.temp
+**/.vitepress/cache
+*~
+node_modules

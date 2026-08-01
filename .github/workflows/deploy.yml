@@ -1,0 +1,55 @@
+name: Deploy
+
+# main   -> yarilomail.org
+# develop -> wwwdev.yarilomail.org
+#
+# Deployment steps are gated on the DEPLOY_KEY secret: until it is configured
+# the workflow only builds the site and does nothing else.
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24
+        cache: npm
+    - name: Install Dependencies
+      run: npm ci --no-fund --no-audit
+    - name: Build with VitePress
+      run: npm run -w main docs:build
+
+    - name: Deploy production (yarilomail.org)
+      if: ${{ github.ref_name == 'main' && env.DEPLOY_KEY != '' }}
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      uses: burnett01/rsync-deployments@7.0.2
+      with:
+        switches: -azr --delete
+        path: main/.vitepress/dist/.
+        remote_host: yarilomail.org
+        remote_user: website
+        remote_path: public_html/
+        remote_key: ${{ secrets.DEPLOY_KEY }}
+
+    - name: Deploy staging (wwwdev.yarilomail.org)
+      if: ${{ github.ref_name == 'develop' && env.DEPLOY_KEY != '' }}
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      uses: burnett01/rsync-deployments@7.0.2
+      with:
+        switches: -azr --delete
+        path: main/.vitepress/dist/.
+        remote_host: wwwdev.yarilomail.org
+        remote_user: website
+        remote_path: public_html/
+        remote_key: ${{ secrets.DEPLOY_KEY }}

@@ -1,0 +1,8 @@
+{
+  "name": "yarilo-website",
+  "license": "CC-BY-4.0",
+  "private": true,
+  "workspaces": [
+    "main"
+  ]
+}

@@ -15,7 +15,8 @@ export default defineConfig({
   base: '/',
   cleanUrls: true,
   metaChunk: true,
-  lastUpdated: true,
+  // lastUpdated is intentionally off: it shells out to `git`, which is not
+  // present in the Docker build stage (no git binary, .git not in context).
 
   sitemap: {
     hostname,

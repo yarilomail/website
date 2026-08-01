@@ -1,5 +1,5 @@
-image:
-  tag: "0.1.0"       # bumped by CI on push to develop
+# image.tag intentionally unset: defaults to Chart.AppVersion, so a
+# helm/Chart.yaml version bump is what rolls out a new image.
 
 replicaCount: 1
 

@@ -22,7 +22,9 @@ export default defineConfig({
     presetWebFonts({
       provider: 'bunny',
       fonts: {
-        sans: 'Inter',
+        // Load the real weights used across the UI (600/700/800) so headings
+        // are not faux-bolded from the 400 face.
+        sans: [{ name: 'Inter', weights: ['400', '500', '600', '700', '800'] }],
       },
     }),
   ],

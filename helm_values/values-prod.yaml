@@ -1,5 +1,5 @@
-image:
-  tag: "5b2bcca"
+# image.tag intentionally unset: defaults to Chart.AppVersion, so a
+# helm/Chart.yaml version bump is what rolls out a new image.
 
 replicaCount: 2
 

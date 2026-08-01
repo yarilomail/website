@@ -3,34 +3,45 @@ import News from '../components/News.vue'
 </script>
 
 <template>
-  <!-- Hero -->
-  <section class="text-center flex flex-col items-center gap-6 py-8">
-    <img src="/favicon.svg" alt="YariloMail" class="h-24 w-24" />
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
-      Yarilo<span class="text-brand">Mail</span>
-    </h1>
-    <p class="text-2xl md:text-3xl font-semibold text-ink max-w-3xl">
-      An open-source, high-performance mail server
-    </p>
-    <p class="text-lg text-gray-600 max-w-2xl">
-      A scalable, standards-compliant IMAP/POP3 backend — a drop-in compatible
-      replacement built for modern email hosting.
-    </p>
-    <div class="flex flex-wrap justify-center gap-4 pt-2">
-      <a
-        href="https://github.com/yarilomail"
-        class="inline-block bg-brand hover:bg-branddark text-white font-bold px-6 py-3 rounded transition-colors"
-        rel="noopener"
-        target="_blank"
-      >
-        Get started
-      </a>
-      <a
-        href="/support"
-        class="inline-block border border-gray-300 hover:border-brand text-ink font-bold px-6 py-3 rounded transition-colors"
-      >
-        Support
-      </a>
+  <!-- Hero: text left, illustration right -->
+  <section class="flex flex-col md:flex-row items-center gap-8 py-8">
+    <div class="md:w-5/12 flex flex-col gap-6 text-left">
+      <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
+        Yarilo<span class="text-brand">Mail</span>
+      </h1>
+      <p class="text-2xl md:text-3xl font-semibold text-ink">
+        An open-source, high-performance mail server
+      </p>
+      <p class="text-lg text-gray-600">
+        A scalable, standards-compliant IMAP/POP3 backend — a drop-in compatible
+        replacement built for modern email hosting.
+      </p>
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a
+          href="https://github.com/yarilomail"
+          class="inline-block bg-brand hover:bg-branddark text-white font-bold px-6 py-3 rounded transition-colors"
+          rel="noopener"
+          target="_blank"
+        >
+          Get started
+        </a>
+        <a
+          href="/support"
+          class="inline-block border border-gray-300 hover:border-brand text-ink font-bold px-6 py-3 rounded transition-colors"
+        >
+          Support
+        </a>
+      </div>
+    </div>
+    <div class="md:w-7/12">
+      <img
+        src="/hero.webp"
+        alt="A user connecting laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP"
+        class="w-full h-auto"
+        width="1376"
+        height="768"
+        fetchpriority="high"
+      />
     </div>
   </section>
 

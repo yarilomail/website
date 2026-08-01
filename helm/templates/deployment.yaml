@@ -35,6 +35,18 @@ spec:
             periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.noindex }}
+          volumeMounts:
+            - name: robots
+              mountPath: /etc/nginx/conf.d/robots
+              readOnly: true
+          {{- end }}
+      {{- if .Values.noindex }}
+      volumes:
+        - name: robots
+          configMap:
+            name: {{ include "yarilomail-web.fullname" . }}-robots
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

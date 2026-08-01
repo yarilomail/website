@@ -11,6 +11,7 @@ RUN npm run -w main docs:build
 
 # --- runtime stage: serve static files with nginx ---
 FROM nginx:1.28-alpine AS runtime
+RUN mkdir -p /etc/nginx/conf.d/robots
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /src/main/.vitepress/dist /usr/share/nginx/html
 EXPOSE 80

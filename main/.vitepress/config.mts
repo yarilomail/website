@@ -5,11 +5,11 @@ import unoConfig from './unocss.config.mts'
 
 const hostname = 'https://yarilomail.org'
 const description =
-  'yarilomail is an open-source, high-performance IMAP/POP3 mail server — a drop-in compatible mail backend built for scalable, standards-compliant email hosting.'
+  'YariloMail is an open-source, high-performance IMAP/POP3 mail server — a drop-in compatible mail backend built for scalable, standards-compliant email hosting.'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'yarilomail | Open-source IMAP mail server',
+  title: 'YariloMail | Open-source IMAP mail server',
   description,
   lang: 'en-US',
   base: '/',
@@ -26,8 +26,8 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
     ['meta', { name: 'theme-color', content: '#e0701a' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:site_name', content: 'yarilomail' }],
-    ['meta', { property: 'og:title', content: 'yarilomail | Open-source IMAP mail server' }],
+    ['meta', { property: 'og:site_name', content: 'YariloMail' }],
+    ['meta', { property: 'og:title', content: 'YariloMail | Open-source IMAP mail server' }],
     ['meta', { property: 'og:description', content: description }],
     ['meta', { property: 'og:url', content: hostname }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],

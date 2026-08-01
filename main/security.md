@@ -4,7 +4,7 @@ title: Security
 
 # Security
 
-yarilomail is designed with security in mind at every layer, with careful
+YariloMail is designed with security in mind at every layer, with careful
 privilege separation between its components.
 
 ## Reporting a vulnerability

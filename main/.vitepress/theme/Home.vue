@@ -5,9 +5,9 @@ import News from '../components/News.vue'
 <template>
   <!-- Hero -->
   <section class="text-center flex flex-col items-center gap-6 py-8">
-    <img src="/favicon.svg" alt="yarilomail" class="h-24 w-24" />
+    <img src="/favicon.svg" alt="YariloMail" class="h-24 w-24" />
     <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
-      yarilo<span class="text-brand">mail</span>
+      Yarilo<span class="text-brand">Mail</span>
     </h1>
     <p class="text-2xl md:text-3xl font-semibold text-ink max-w-3xl">
       An open-source, high-performance mail server

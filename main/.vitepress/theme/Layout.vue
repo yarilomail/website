@@ -15,7 +15,7 @@ const nav = (theme.value.nav as NavItem[]) || []
 
 <template>
   <div class="min-h-screen flex flex-col bg-white">
-    <div class="max-w-8xl mx-auto w-full px-4">
+    <div class="max-w-7xl mx-auto w-full px-6 md:px-12 xl:px-16">
       <!-- Navbar -->
       <header class="w-full border-b border-gray-200">
         <nav class="flex items-center justify-between py-4">

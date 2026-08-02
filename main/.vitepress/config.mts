@@ -44,10 +44,11 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
-      { text: 'Documentation', link: 'https://github.com/yarilomail' },
+      { text: 'Documentation', link: 'https://github.com/yarilomail/yarilo/tree/main/docs' },
+      { text: 'Releases', link: 'https://github.com/yarilomail/yarilo/releases' },
       { text: 'Support', link: '/support' },
       { text: 'Security', link: '/security' },
-      { text: 'GitHub', link: 'https://github.com/yarilomail' },
+      { text: 'GitHub', link: 'https://github.com/yarilomail/yarilo' },
     ],
   },
 

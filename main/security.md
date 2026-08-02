@@ -14,7 +14,7 @@ open a public issue for security problems. Instead, contact the maintainers
 privately so the issue can be addressed before public disclosure.
 
 Details on the reporting process are published in the project
-[repository](https://github.com/yarilomail).
+[repository](https://github.com/yarilomail/yarilo).
 
 ## Advisories
 

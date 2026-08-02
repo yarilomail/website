@@ -14,7 +14,7 @@
       <h2 class="text-2xl font-bold">Issue tracker</h2>
       <p class="text-lg text-gray-700">
         Report bugs and request features on
-        <a href="https://github.com/yarilomail" class="underline hover:text-brand" rel="noopener" target="_blank">GitHub</a>.
+        <a href="https://github.com/yarilomail/yarilo/issues" class="underline hover:text-brand" rel="noopener" target="_blank">GitHub</a>.
       </p>
     </div>
 
@@ -22,8 +22,8 @@
       <i class="i-heroicons-book-open-solid text-4xl text-brand" />
       <h2 class="text-2xl font-bold">Documentation</h2>
       <p class="text-lg text-gray-700">
-        Configuration guides and reference are published in the project
-        <a href="https://github.com/yarilomail" class="underline hover:text-brand" rel="noopener" target="_blank">repository</a>.
+        Configuration guides and protocol reference are published in the
+        <a href="https://github.com/yarilomail/yarilo/tree/main/docs" class="underline hover:text-brand" rel="noopener" target="_blank">project documentation</a>.
       </p>
     </div>
 

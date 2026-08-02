@@ -3,34 +3,40 @@ import News from '../components/News.vue'
 </script>
 
 <template>
-  <!-- Hero -->
-  <section class="text-center flex flex-col items-center gap-6 py-8">
-    <img src="/favicon.svg" alt="YariloMail" class="h-24 w-24" />
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
-      Yarilo<span class="text-brand">Mail</span>
-    </h1>
-    <p class="text-2xl md:text-3xl font-semibold text-ink max-w-3xl">
-      An open-source, high-performance mail server
-    </p>
-    <p class="text-lg text-gray-600 max-w-2xl">
-      A scalable, standards-compliant IMAP/POP3 backend — a drop-in compatible
-      replacement built for modern email hosting.
-    </p>
-    <div class="flex flex-wrap justify-center gap-4 pt-2">
-      <a
-        href="https://github.com/yarilomail"
-        class="inline-block bg-brand hover:bg-branddark text-white font-bold px-6 py-3 rounded transition-colors"
-        rel="noopener"
-        target="_blank"
-      >
-        Get started
-      </a>
-      <a
-        href="/support"
-        class="inline-block border border-gray-300 hover:border-brand text-ink font-bold px-6 py-3 rounded transition-colors"
-      >
-        Support
-      </a>
+  <!-- Hero: text left, illustration right -->
+  <section class="flex flex-col md:flex-row items-center gap-8 py-8">
+    <div class="md:w-1/2 flex flex-col gap-6 text-left">
+      <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-black">
+        YariloMail
+      </h1>
+      <p class="text-2xl md:text-3xl font-semibold text-ink">
+        An open-source, high-performance mail server
+      </p>
+      <p class="text-lg text-gray-600">
+        A scalable, standards-compliant mail server speaking IMAP, POP3, JMAP,
+        Submission and SIEVE, with built-in full-text search — a drop-in
+        replacement for your current mail stack.
+      </p>
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a
+          href="https://github.com/yarilomail"
+          class="inline-block bg-brand hover:bg-branddark text-white font-bold px-6 py-3 rounded transition-colors"
+          rel="noopener"
+          target="_blank"
+        >
+          Get started
+        </a>
+      </div>
+    </div>
+    <div class="md:w-1/2">
+      <img
+        src="/hero.webp"
+        alt="A user connecting laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP"
+        class="w-full h-auto"
+        width="1376"
+        height="768"
+        fetchpriority="high"
+      />
     </div>
   </section>
 
@@ -112,6 +118,51 @@ import News from '../components/News.vue'
         <p class="text-lg text-gray-700">
           Designed with security in mind at every layer. Report vulnerabilities via
           our <a href="/security" class="underline hover:text-brand">security</a> page.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-2xl font-semibold flex items-center gap-2 text-brand">
+          <i class="i-heroicons-magnifying-glass-solid text-xl" />
+          Full-text search
+        </h3>
+        <p class="text-lg text-gray-700">
+          Built-in FTS engine indexes message bodies and attachments for instant
+          server-side search across the whole mailbox.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-2xl font-semibold flex items-center gap-2 text-brand">
+          <i class="i-heroicons-server-stack-solid text-xl" />
+          Hybrid infrastructure
+        </h3>
+        <p class="text-lg text-gray-700">
+          Runs across hybrid setups — on-prem, cloud or both — with mixed data
+          storages: different mailbox formats and storage backends coexist in a
+          single deployment.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-2xl font-semibold flex items-center gap-2 text-brand">
+          <i class="i-heroicons-user-group-solid text-xl" />
+          User-group isolation
+        </h3>
+        <p class="text-lg text-gray-700">
+          Isolate groups of users on dedicated backend groups, each with its own
+          storage type — tag-based separation within one cluster.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-2xl font-semibold flex items-center gap-2 text-brand">
+          <i class="i-heroicons-code-bracket-square-solid text-xl" />
+          Advanced API
+        </h3>
+        <p class="text-lg text-gray-700">
+          A high-quality administration and automation API out of the box —
+          manage users, mailboxes and the cluster programmatically.
         </p>
       </div>
     </div>

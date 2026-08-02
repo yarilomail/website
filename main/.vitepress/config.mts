@@ -42,10 +42,11 @@ export default defineConfig({
   ],
 
   transformPageData(pageData) {
-    // Per-page canonical link for clean, duplicate-free indexing.
+    // Per-page canonical link for clean, duplicate-free indexing. Must match
+    // cleanUrls and the sitemap: extensionless, no .html.
     const canonical = `${hostname}/${pageData.relativePath}`
       .replace(/index\.md$/, '')
-      .replace(/\.md$/, '.html')
+      .replace(/\.md$/, '')
     pageData.frontmatter.head ??= []
     pageData.frontmatter.head.push(['link', { rel: 'canonical', href: canonical }])
   },

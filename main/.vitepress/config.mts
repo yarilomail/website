@@ -23,7 +23,11 @@ export default defineConfig({
   },
 
   head: [
+    // SVG first for browsers that support it; .ico covers the rest (and is
+    // fetched from the root anyway). apple-touch-icon is the iOS home screen.
     ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon.ico', sizes: '48x48' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' }],
     ['meta', { name: 'theme-color', content: '#e0701a' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'YariloMail' }],

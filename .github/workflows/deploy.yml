@@ -102,6 +102,32 @@ jobs:
           name: ${{ steps.version.outputs.tag }}
           body_path: RELEASE_NOTES.md
 
+      # Tell Bing/Yandex/Seznam which URLs changed. Only on an actual release:
+      # without a chart bump nothing new reaches production, so there is
+      # nothing to re-crawl. The URL list is read from the live sitemap so it
+      # never goes stale as pages are added. Non-fatal — a failed ping must
+      # not fail the build.
+      - name: Notify IndexNow
+        if: steps.version.outputs.is_release == 'true' && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        env:
+          SITE: https://yarilomail.org
+          INDEXNOW_KEY: d991637c230a415982543356a284fcdb
+        run: |
+          URLS=$(curl -sf --max-time 30 "${SITE}/sitemap.xml" \
+            | grep -oE '<loc>[^<]+</loc>' \
+            | sed -e 's|<loc>||g' -e 's|</loc>||g' \
+            | jq -R . | jq -sc .)
+          if [ -z "${URLS}" ] || [ "${URLS}" = "[]" ]; then
+            echo "sitemap empty or unreachable, skipping"
+            exit 0
+          fi
+          echo "submitting: ${URLS}"
+          curl -sf -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json" \
+            -d "{\"host\":\"yarilomail.org\",\"key\":\"${INDEXNOW_KEY}\",\"keyLocation\":\"${SITE}/${INDEXNOW_KEY}.txt\",\"urlList\":${URLS}}" \
+            && echo "IndexNow notified" || echo "IndexNow ping failed (non-fatal)"
+
       - name: Cleanup old GHCR versions
         if: github.ref == 'refs/heads/main'
         continue-on-error: true

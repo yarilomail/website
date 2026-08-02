@@ -40,7 +40,7 @@ npm run -w main docs:preview  # preview the production build
 - `main/index.md` + `main/.vitepress/theme/Home.vue` — landing page
 - `main/news/*.md` — news entries (frontmatter: `date`, `title`, `link`)
 - `main/security.md`, `main/support.md` — static pages
-- `main/public/` — static assets (favicon, robots.txt)
+- `main/public/` — static assets (favicon, OG image, robots.txt, IndexNow key)
 
 ## Deployment
 
@@ -66,6 +66,11 @@ To ship a change: merge it, then bump `helm/Chart.yaml` — CI builds the
 TLS is issued by cert-manager (`letsencrypt-prod` ClusterIssuer, Cloudflare
 DNS-01). The origin sits behind Cloudflare; the ingress is restricted to
 Cloudflare IP ranges. Staging serves `X-Robots-Tag: noindex`.
+
+On a production release the workflow also pings **IndexNow** (Bing, Yandex,
+Seznam) with the URLs read from the live sitemap. The verification key lives
+at `main/public/<key>.txt` and must stay reachable — deleting it breaks the
+ping.
 
 ### Layout
 

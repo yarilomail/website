@@ -151,7 +151,7 @@ import News from '../components/News.vue'
         </h3>
         <p class="text-lg text-gray-700">
           Isolate groups of users on dedicated backend groups, each with its own
-          storage type — tenant-level separation within one cluster.
+          storage type — tag-based separation within one cluster.
         </p>
       </div>
 

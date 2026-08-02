@@ -1,0 +1,12 @@
+[extend]
+useDefault = true
+
+# Global allowlist (top-level array). NOT [[rules.allowlists]] — that binds the
+# entry to a rule and leaves a phantom rule with no id, which fails config load
+# under the gitleaks CLI ("rule |id| is missing or empty").
+[[allowlists]]
+description = "IndexNow verification key. Public by protocol design: search engines fetch it from https://yarilomail.org/<key>.txt to confirm domain ownership, so it is not a secret. AND-scoped to this exact literal AND the two files that legitimately carry it."
+condition = "AND"
+regexTarget = "match"
+regexes = ['d991637c230a415982543356a284fcdb']
+paths = ['''main/public/[0-9a-f]{32}\.txt''', '''\.github/workflows/deploy\.yml''']

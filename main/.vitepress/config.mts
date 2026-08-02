@@ -30,7 +30,15 @@ export default defineConfig({
     ['meta', { property: 'og:title', content: 'YariloMail | Open-source IMAP mail server' }],
     ['meta', { property: 'og:description', content: description }],
     ['meta', { property: 'og:url', content: hostname }],
+    // Social preview. Absolute URL is required — crawlers do not resolve
+    // relative paths.
+    ['meta', { property: 'og:image', content: `${hostname}/og.png` }],
+    ['meta', { property: 'og:image:type', content: 'image/png' }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:alt', content: 'A user connecting a laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: `${hostname}/og.png` }],
   ],
 
   transformPageData(pageData) {

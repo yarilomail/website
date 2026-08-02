@@ -5,7 +5,7 @@ import News from '../components/News.vue'
 <template>
   <!-- Hero: text left, illustration right -->
   <section class="flex flex-col md:flex-row items-center gap-8 py-8">
-    <div class="md:w-5/12 flex flex-col gap-6 text-left">
+    <div class="md:w-1/2 flex flex-col gap-6 text-left">
       <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
         Yarilo<span class="text-brand">Mail</span>
       </h1>
@@ -33,7 +33,7 @@ import News from '../components/News.vue'
         </a>
       </div>
     </div>
-    <div class="md:w-7/12">
+    <div class="md:w-1/2">
       <img
         src="/hero.webp"
         alt="A user connecting laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP"

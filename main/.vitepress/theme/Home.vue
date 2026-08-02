@@ -13,9 +13,9 @@ import News from '../components/News.vue'
         An open-source, high-performance mail server
       </p>
       <p class="text-lg text-gray-600">
-        A scalable, standards-compliant mail backend speaking IMAP, POP3, JMAP,
+        A scalable, standards-compliant mail server speaking IMAP, POP3, JMAP,
         Submission and SIEVE, with built-in full-text search — a drop-in
-        compatible replacement built for modern email hosting.
+        replacement for your current mail stack.
       </p>
       <div class="flex flex-wrap gap-4 pt-2">
         <a
@@ -151,7 +151,7 @@ import News from '../components/News.vue'
         </h3>
         <p class="text-lg text-gray-700">
           Isolate groups of users on dedicated backend groups, each with its own
-          storage type — tenant-level separation within one cluster.
+          storage type — tag-based separation within one cluster.
         </p>
       </div>
 

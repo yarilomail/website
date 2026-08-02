@@ -5,7 +5,7 @@ import unoConfig from './unocss.config.mts'
 
 const hostname = 'https://yarilomail.org'
 const description =
-  'YariloMail is an open-source, high-performance IMAP/POP3 mail server — a drop-in compatible mail backend built for scalable, standards-compliant email hosting.'
+  'YariloMail is an open-source, high-performance mail server speaking IMAP, POP3, JMAP, Submission and SIEVE, with built-in full-text search — a drop-in compatible mail backend built for scalable, standards-compliant email hosting.'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({

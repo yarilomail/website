@@ -3,6 +3,11 @@ image:
   tag: ""            # set per-environment by CI
   pullPolicy: IfNotPresent
 
+# The GHCR package is private; the secret is distributed into the yarilomail
+# namespace by ESO (k8s_eso ClusterExternalSecret ghcr-pull-secret).
+imagePullSecrets:
+  - name: ghcr-pull-secret
+
 replicaCount: 2
 
 service:

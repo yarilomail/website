@@ -23,7 +23,7 @@
       <h2 class="text-2xl font-bold">Documentation</h2>
       <p class="text-lg text-gray-700">
         Configuration guides and protocol reference are published in the
-        <a href="https://github.com/yarilomail/yarilo/tree/main/docs" class="underline hover:text-brand" rel="noopener" target="_blank">project documentation</a>.
+        <a href="https://doc.yarilomail.org/" class="underline hover:text-brand" rel="noopener" target="_blank">project documentation</a>.
       </p>
     </div>
 

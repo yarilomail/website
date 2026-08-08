@@ -57,7 +57,7 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
-      { text: 'Documentation', link: 'https://github.com/yarilomail/yarilo/tree/main/docs' },
+      { text: 'Documentation', link: 'https://doc.yarilomail.org/' },
       { text: 'Releases', link: 'https://github.com/yarilomail/yarilo/releases' },
       { text: 'Support', link: '/support' },
       { text: 'Security', link: '/security' },

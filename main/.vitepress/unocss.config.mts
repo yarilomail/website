@@ -8,11 +8,35 @@ import {
   transformerDirectives,
 } from 'unocss'
 
+// Base-size rules the typography preset emits as invalid :where(> ...);
+// layered after it so they win over .prose :where(p) by order.
+const notProse = ':not(:where([class~="not-prose"],[class~="not-prose"] *))'
+const proseChildRules: [string, string][] = [
+  ['> :first-child', 'margin-top:0'],
+  ['> :last-child', 'margin-bottom:0'],
+  ['> ul > li p', 'margin-top:0.75em;margin-bottom:0.75em'],
+  ['> ul > li > p:first-child', 'margin-top:1.25em'],
+  ['> ul > li > p:last-child', 'margin-bottom:1.25em'],
+  ['> ol > li > p:first-child', 'margin-top:1.25em'],
+  ['> ol > li > p:last-child', 'margin-bottom:1.25em'],
+]
+
 export default defineConfig({
   presets: [
     presetAttributify(),
     presetWind4(),
-    presetTypography(),
+    presetTypography({
+      // Invalid as emitted; null drops them, proseChildRules restores them.
+      cssExtend: {
+        '> :first-child': null,
+        '> :last-child': null,
+        '> ul > li p': null,
+        '> ul > li > p:first-child': null,
+        '> ul > li > p:last-child': null,
+        '> ol > li > p:first-child': null,
+        '> ol > li > p:last-child': null,
+      },
+    }),
     presetIcons({
       extraProperties: {
         display: 'inline-block',
@@ -28,6 +52,13 @@ export default defineConfig({
       },
     }),
   ],
+  layers: { 'prose-children': -19 },
+  preflights: [{
+    layer: 'prose-children',
+    getCSS: () => proseChildRules
+      .map(([sel, decl]) => `.prose :where(.prose ${sel})${notProse}{${decl}}`)
+      .join('\n'),
+  }],
   rules: [
     ['max-w-8xl', { 'max-width': '90rem' }],
   ],

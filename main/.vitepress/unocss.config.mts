@@ -35,6 +35,13 @@ export default defineConfig({
         '> ul > li > p:last-child': null,
         '> ol > li > p:first-child': null,
         '> ol > li > p:last-child': null,
+        // Body copy: 17px with looser leading, headings at 700 not 800.
+        'font-size': '17px',
+        'line-height': '1.75',
+        'color': '#3b4451',
+        'h1, h2, h3': { 'font-weight': '700', 'letter-spacing': '-0.01em', 'color': 'var(--ink)' },
+        'h1': { 'font-size': '2.25em' },
+        'h2': { 'font-size': '1.5em', 'margin-top': '2em' },
       },
     }),
     presetIcons({
@@ -46,9 +53,9 @@ export default defineConfig({
     presetWebFonts({
       provider: 'bunny',
       fonts: {
-        // Load the real weights used across the UI (600/700/800) so headings
-        // are not faux-bolded from the 400 face.
-        sans: [{ name: 'Inter', weights: ['400', '500', '600', '700', '800'] }],
+        // Real faces for the UI weights so headings are not faux-bolded;
+        // Plex stops at 700, so font-extrabold renders with the 700 face.
+        sans: [{ name: 'IBM Plex Sans', weights: ['400', '500', '600', '700'] }],
       },
     }),
   ],
@@ -71,7 +78,7 @@ export default defineConfig({
       ink: '#1f2933',
     },
     fontFamily: {
-      sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      sans: ['IBM Plex Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
     fontSize: {
       base: '16px',

@@ -47,7 +47,7 @@ const nav = (theme.value.nav as NavItem[]) || []
       <main class="w-full py-10">
         <Home v-if="frontmatter.home" />
         <Support v-else-if="frontmatter.support" />
-        <article v-else class="prose max-w-full text-lg">
+        <article v-else class="prose max-w-full">
           <Content />
         </article>
       </main>

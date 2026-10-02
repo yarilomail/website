@@ -19,8 +19,8 @@ privately, so the issue can be fixed before it is disclosed.
 To report a vulnerability, use one of these channels:
 
 - the GitHub [Report a vulnerability](https://github.com/yarilomail/yarilo/security/advisories/new)
-  form (preferred);
-- email to [security@yarilomail.org](mailto:security@yarilomail.org).
+  form (preferred)
+- email to [security@yarilomail.org](mailto:security@yarilomail.org)
 
 Include the affected version, the relevant part of the configuration, steps to
 reproduce, and the impact you observed.

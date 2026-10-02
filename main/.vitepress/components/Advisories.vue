@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import data from '../data/advisories.json'
-import { filterAdvisories, severities, type Advisory, type Severity } from '../data/advisories'
+import { filterAdvisories, severities, type Advisory, type Severity } from '../data/advisories.mts'
 
 const advisories = data as Advisory[]
 
@@ -13,6 +13,7 @@ const shown = computed(() => filterAdvisories(advisories, query.value, severity.
 
 // Full class strings so UnoCSS can extract them.
 const badge: Record<Severity, string> = {
+  critical: 'bg-red-700 text-white',
   high: 'bg-red-100 text-red-800',
   moderate: 'bg-amber-100 text-amber-800',
   low: 'bg-gray-100 text-gray-700',
@@ -21,7 +22,7 @@ const badge: Record<Severity, string> = {
 
 <template>
   <div class="not-prose flex flex-col gap-4">
-    <div class="flex flex-wrap items-center gap-3">
+    <div v-if="advisories.length > 0" class="flex flex-wrap items-center gap-3">
       <input
         v-model="query"
         type="search"
@@ -29,7 +30,7 @@ const badge: Record<Severity, string> = {
         aria-label="Search advisories"
         class="flex-1 min-w-48 border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:border-brand"
       />
-      <div class="flex gap-1" role="group" aria-label="Filter by severity">
+      <div class="flex flex-wrap gap-1" role="group" aria-label="Filter by severity">
         <button
           v-for="f in filters"
           :key="f"

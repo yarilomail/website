@@ -1,4 +1,4 @@
-export type Severity = 'high' | 'moderate' | 'low'
+export type Severity = 'critical' | 'high' | 'moderate' | 'low'
 
 export interface Advisory {
   id: string
@@ -8,7 +8,7 @@ export interface Advisory {
   link: string
 }
 
-export const severities: Severity[] = ['high', 'moderate', 'low']
+export const severities: Severity[] = ['critical', 'high', 'moderate', 'low']
 
 // Newest first; matches the query against the CVE id and the summary.
 export function filterAdvisories(

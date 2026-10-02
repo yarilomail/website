@@ -40,6 +40,9 @@ npm run -w main docs:preview  # preview the production build
 - `main/index.md` + `main/.vitepress/theme/Home.vue` — landing page
 - `main/news/*.md` — news entries (frontmatter: `date`, `title`, `link`)
 - `main/security.md`, `main/support.md` — static pages
+- `main/.vitepress/data/advisories.json` — security advisories listed on
+  `/security`, one object per advisory: `id` (CVE), `date` (`YYYY-MM-DD`),
+  `severity` (`high` | `moderate` | `low`), `summary`, `link`
 - `main/public/` — static assets (favicon, OG image, robots.txt, IndexNow key)
 
 ## Deployment

@@ -2,6 +2,10 @@
 title: Security
 ---
 
+<script setup>
+import Advisories from './.vitepress/components/Advisories.vue'
+</script>
+
 # Security
 
 YariloMail is designed with security in mind at every layer, with careful
@@ -29,6 +33,4 @@ For bugs that are not security issues, see [Support](/support).
 
 Published security advisories are listed here, newest first.
 
-| CVE | Date | Severity | Summary |
-|:---|:---|:---|:---|
-| — | — | — | No advisories have been published yet. |
+<Advisories />

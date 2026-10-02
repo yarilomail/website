@@ -33,6 +33,7 @@ npm install
 npm run -w main docs:dev      # local dev server with hot reload
 npm run -w main docs:build    # production build -> main/.vitepress/dist
 npm run -w main docs:preview  # preview the production build
+npm run -w main test          # unit tests (node:test)
 ```
 
 ## Content
@@ -40,6 +41,9 @@ npm run -w main docs:preview  # preview the production build
 - `main/index.md` + `main/.vitepress/theme/Home.vue` — landing page
 - `main/news/*.md` — news entries (frontmatter: `date`, `title`, `link`)
 - `main/security.md`, `main/support.md` — static pages
+- `main/.vitepress/data/advisories.json` — security advisories listed on
+  `/security`, one object per advisory: `id` (CVE), `date` (`YYYY-MM-DD`),
+  `severity` (`critical` | `high` | `moderate` | `low`), `summary`, `link`
 - `main/public/` — static assets (favicon, OG image, robots.txt, IndexNow key)
 
 ## Deployment

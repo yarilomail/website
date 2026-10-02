@@ -66,6 +66,13 @@ export default defineConfig({
       .map(([sel, decl]) => `.prose :where(.prose ${sel})${notProse}{${decl}}`)
       .join('\n'),
   }],
+  // Same type scale as the prose pages, for the Vue-built pages.
+  shortcuts: {
+    'type-body': 'text-[17px] leading-[1.75] text-[#3b4451]',
+    'type-h1': 'text-[38.25px] leading-[1.1111] font-bold tracking-[-0.01em] text-ink',
+    'type-h2': 'text-[25.5px] leading-[1.3333] font-bold tracking-[-0.01em] text-ink',
+    'type-h3': 'text-[21.25px] leading-snug font-bold tracking-[-0.01em]',
+  },
   rules: [
     ['max-w-8xl', { 'max-width': '90rem' }],
   ],

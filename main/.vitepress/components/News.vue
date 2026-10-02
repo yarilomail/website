@@ -27,7 +27,7 @@ const next = () => { page.value = (page.value + 1) % pageCount.value }
 
 <template>
   <div class="max-w-8xl mx-auto w-full">
-    <h2 class="text-3xl font-bold mb-6 uppercase">News</h2>
+    <h2 class="type-h2 mb-6">News</h2>
 
     <div class="flex items-center gap-2">
       <button
@@ -49,7 +49,7 @@ const next = () => { page.value = (page.value + 1) % pageCount.value }
             class="flex flex-col justify-center gap-1 rounded border border-gray-200 hover:border-brand px-4 py-3 transition-colors overflow-hidden"
           >
             <span class="text-sm text-gray-500">{{ item.date }}</span>
-            <span class="text-lg leading-snug line-clamp-2">{{ item.title }}</span>
+            <span class="text-[17px] leading-snug text-ink line-clamp-2">{{ item.title }}</span>
           </a>
         </div>
       </div>

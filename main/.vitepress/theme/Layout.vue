@@ -18,7 +18,7 @@ const nav = (theme.value.nav as NavItem[]) || []
     <div class="max-w-7xl mx-auto w-full px-6 md:px-12 xl:px-16">
       <!-- Navbar -->
       <header class="w-full border-b border-gray-200">
-        <nav class="flex items-center justify-between py-4">
+        <nav class="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
           <!-- Left: logo + wordmark -->
           <a :href="withBase('/')" class="flex items-center gap-2 no-underline">
             <img src="/favicon.svg" alt="YariloMail" class="h-9 w-9" />
@@ -27,8 +27,8 @@ const nav = (theme.value.nav as NavItem[]) || []
             </span>
           </a>
 
-          <!-- Right: nav links -->
-          <div class="flex items-center gap-6">
+          <!-- Right: nav links; below the logo on narrow screens -->
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
               v-for="item in nav"
               :key="item.link"
@@ -47,7 +47,7 @@ const nav = (theme.value.nav as NavItem[]) || []
       <main class="w-full py-10">
         <Home v-if="frontmatter.home" />
         <Support v-else-if="frontmatter.support" />
-        <article v-else class="prose max-w-full text-lg">
+        <article v-else class="prose max-w-full">
           <Content />
         </article>
       </main>

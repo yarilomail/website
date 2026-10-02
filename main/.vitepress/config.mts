@@ -66,6 +66,10 @@ export default defineConfig({
   },
 
   vite: {
+    build: {
+      // esbuild's CSS minifier drops the & in nested selectors (space-y-*).
+      cssMinify: 'lightningcss',
+    },
     optimizeDeps: {
       exclude: ['vitepress'],
     },

@@ -29,5 +29,5 @@ Each component is its own small process, and every deployment shape — a single
 ## Get it
 
 - Release and notes: [github.com/yarilomail/yarilo/releases/tag/v2.4.1](https://github.com/yarilomail/yarilo/releases/tag/v2.4.1)
-- Image: `ghcr.io/yarilomail/yarilo:2.4.1`
+- Image: [`0kaba0/yarilo:2.4.1`](https://hub.docker.com/r/0kaba0/yarilo) on Docker Hub
 - Documentation: [doc.yarilomail.org](https://doc.yarilomail.org/), starting with [Install](https://doc.yarilomail.org/INSTALL)

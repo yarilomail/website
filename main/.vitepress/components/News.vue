@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { withBase } from 'vitepress'
 
 const newsPages = import.meta.glob('../../news/*.md', { eager: true })
 
@@ -12,7 +13,8 @@ const newsItems = Object.entries(newsPages)
       link: fm?.link ?? '#',
     }
   })
-  .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+  // By the date it names, not its text: "15 Aug" sorts after "04 Oct" as a string.
+  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
 
 // Fixed-height slider: 3 cards per page on desktop, arrows + dots.
 const perPage = 3
@@ -43,9 +45,9 @@ const next = () => { page.value = (page.value + 1) % pageCount.value }
           <a
             v-for="(item, i) in visible"
             :key="page + '-' + i"
-            :href="item.link"
-            rel="noopener"
-            target="_blank"
+            :href="item.link.startsWith('http') ? item.link : withBase(item.link)"
+            :rel="item.link.startsWith('http') ? 'noopener' : undefined"
+            :target="item.link.startsWith('http') ? '_blank' : undefined"
             class="flex flex-col justify-center gap-1 rounded border border-gray-200 hover:border-brand px-4 py-3 transition-colors overflow-hidden"
           >
             <span class="text-sm text-gray-500">{{ item.date }}</span>

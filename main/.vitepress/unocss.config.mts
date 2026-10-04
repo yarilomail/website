@@ -53,6 +53,10 @@ export default defineConfig({
         'h1': { 'font-size': `${headings.h1.em}em`, 'line-height': `${headings.h1.leading}` },
         'h2': { 'font-size': `${headings.h2.em}em`, 'line-height': `${headings.h2.leading}`, 'margin-top': '2em' },
         'h3': { 'font-size': `${headings.h3.em}em`, 'line-height': `${headings.h3.leading}` },
+        // The preset wraps inline code in literal backticks; a tint marks it instead.
+        'code::before': { content: 'none' },
+        'code::after': { content: 'none' },
+        ':not(pre) > code': { 'background-color': '#f3f4f6', 'border-radius': '4px', 'padding': '0.15em 0.35em', 'font-weight': '500' },
       },
     }),
     presetIcons({

@@ -1,0 +1,92 @@
+name: security.txt expiry — website
+
+# RFC 9116 makes Expires mandatory and says a file past that date is stale and
+# should not be trusted. Nothing else moves the date, so this keeps one open
+# issue while it is less than REMIND_DAYS away (or already past), and closes
+# it once the date in the file has been pushed out again.
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"  # every Monday at 09:00 UTC
+  workflow_dispatch:
+
+env:
+  FILE: main/public/.well-known/security.txt
+  REMIND_DAYS: "45"
+
+jobs:
+  check:
+    name: Check security.txt Expires
+    runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read Expires
+        id: expires
+        run: |
+          # Not awk -F: -- the timestamp itself is full of colons.
+          expires=$(sed -n 's/^[Ee][Xx][Pp][Ii][Rr][Ee][Ss]:[[:space:]]*//p' "$FILE" | head -n 1 | tr -d '\r')
+          if [ -z "$expires" ]; then
+            echo "::error::${FILE} has no Expires field"
+            exit 1
+          fi
+          days=$(( ( $(date -u -d "$expires" +%s) - $(date -u +%s) ) / 86400 ))
+          echo "Expires ${expires}, ${days} day(s) left"
+          echo "expires=${expires}" >> "$GITHUB_OUTPUT"
+          echo "days=${days}" >> "$GITHUB_OUTPUT"
+
+      # Keeps one open issue in sync: opened inside the reminder window,
+      # closed once the date has been moved.
+      - name: Sync expiry issue
+        uses: actions/github-script@v7
+        env:
+          EXPIRES: ${{ steps.expires.outputs.expires }}
+          DAYS: ${{ steps.expires.outputs.days }}
+        with:
+          script: |
+            const title = 'security.txt Expires date is due';
+            const expires = process.env.EXPIRES;
+            const days = Number(process.env.DAYS);
+            const remind = Number(process.env.REMIND_DAYS);
+            const { owner, repo } = context.repo;
+            const open = await github.paginate(github.rest.issues.listForRepo, {
+              owner, repo, state: 'open', per_page: 100,
+            });
+            const issue = open.find(i => i.title === title);
+
+            if (days > remind) {
+              if (!issue) { core.info(`${days} day(s) left, nothing to do`); return; }
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: issue.number,
+                body: `Expires is now ${expires} (${days} days away). Closing.`,
+              });
+              await github.rest.issues.update({
+                owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed',
+              });
+              core.info(`Closed #${issue.number}`);
+              return;
+            }
+
+            const when = days < 0 ? `expired ${-days} day(s) ago` : `expires in ${days} day(s)`;
+            const checked = new Date().toISOString().slice(0, 16).replace('T', ' ');
+            const body = [
+              `\`${process.env.FILE}\` ${when} (Expires: ${expires}).`,
+              '',
+              'RFC 9116 treats a file past its Expires date as stale. Move the date',
+              'out by at most a year, check the Contact and Policy lines are still',
+              'right, and bump the chart so the new file reaches production.',
+              '',
+              `_Last checked: ${checked} UTC_`,
+            ].join('\n');
+
+            if (issue) {
+              await github.rest.issues.update({ owner, repo, issue_number: issue.number, body });
+              core.info(`Updated #${issue.number}`);
+            } else {
+              const { data } = await github.rest.issues.create({ owner, repo, title, body });
+              core.info(`Created #${data.number}`);
+            }

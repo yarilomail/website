@@ -4,12 +4,17 @@ import UnoCSS from 'unocss/vite'
 import unoConfig from './unocss.config.mts'
 
 const hostname = 'https://yarilomail.org'
+// Site-wide fallback; every page sets its own `description` in frontmatter.
+// Keep under ~155 characters, or search results cut it.
 const description =
-  'YariloMail is an open-source, high-performance mail server speaking IMAP, POP3, JMAP, Submission and SIEVE, with built-in full-text search — a drop-in replacement for your current mail stack.'
+  'YariloMail is an open-source mail server in Go for Kubernetes: IMAP, POP3, LMTP, JMAP, ManageSieve and Submission, with built-in full-text search.'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'YariloMail | Open-source IMAP mail server',
+  // Page titles render as "<page> | YariloMail"; the home page sets its own
+  // full title with titleTemplate: false.
+  title: 'YariloMail',
+  titleTemplate: ':title | YariloMail',
   description,
   lang: 'en-US',
   base: '/',
@@ -31,9 +36,7 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#e0701a' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'YariloMail' }],
-    ['meta', { property: 'og:title', content: 'YariloMail | Open-source IMAP mail server' }],
-    ['meta', { property: 'og:description', content: description }],
-    ['meta', { property: 'og:url', content: hostname }],
+    // og:title, og:description and og:url are per page: see transformPageData.
     // Social preview. Absolute URL is required — crawlers do not resolve
     // relative paths.
     ['meta', { property: 'og:image', content: `${hostname}/og.png` }],
@@ -51,8 +54,20 @@ export default defineConfig({
     const canonical = `${hostname}/${pageData.relativePath}`
       .replace(/index\.md$/, '')
       .replace(/\.md$/, '')
-    pageData.frontmatter.head ??= []
-    pageData.frontmatter.head.push(['link', { rel: 'canonical', href: canonical }])
+    // Open Graph tags mirror the page's own <title> and meta description,
+    // so a shared news link previews as that post, not as the home page.
+    const fm = pageData.frontmatter
+    const title = fm.titleTemplate === false || !fm.title
+      ? fm.title || 'YariloMail'
+      : `${fm.title} | YariloMail`
+    const desc = fm.description || description
+    fm.head ??= []
+    fm.head.push(
+      ['link', { rel: 'canonical', href: canonical }],
+      ['meta', { property: 'og:url', content: canonical }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: desc }],
+    )
   },
 
   themeConfig: {

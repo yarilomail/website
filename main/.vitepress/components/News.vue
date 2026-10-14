@@ -39,16 +39,17 @@ const next = () => { page.value = (page.value + 1) % pageCount.value }
         @click="prev"
       >&lsaquo;</button>
 
-      <!-- fixed height so a growing news list never stretches the page -->
-      <div class="flex-1 h-32 overflow-hidden">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+      <!-- fixed height on md+ so a growing news list never stretches the page;
+           on narrow screens the cards stack, so the height must follow them -->
+      <div class="flex-1 md:h-32 md:overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:h-full">
           <a
             v-for="(item, i) in visible"
             :key="page + '-' + i"
             :href="item.link.startsWith('http') ? item.link : withBase(item.link)"
             :rel="item.link.startsWith('http') ? 'noopener' : undefined"
             :target="item.link.startsWith('http') ? '_blank' : undefined"
-            class="flex flex-col justify-center gap-1 rounded border border-gray-200 hover:border-brand px-4 py-3 transition-colors overflow-hidden"
+            class="flex flex-col justify-start gap-1 rounded border border-gray-200 hover:border-brand px-4 py-3 transition-colors overflow-hidden"
           >
             <span class="text-sm text-gray-500">{{ item.date }}</span>
             <span class="text-[17px] leading-snug text-ink line-clamp-2">{{ item.title }}</span>

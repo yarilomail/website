@@ -67,6 +67,15 @@ const homeGraph = {
   ],
 }
 
+// The default social image; a news post may name its own (1200x630 PNG) with
+// `image` and `imageAlt` in frontmatter.
+const ogImage = '/og.png'
+const ogImageAlt = 'A user connecting a laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP'
+
+// Each news page's last change (frontmatter `updated`, else `date`), filled by
+// transformPageData and read when the sitemap is written.
+const lastmod = new Map<string, string>()
+
 // News frontmatter dates read "11 Oct 2026"; schema.org wants ISO 8601.
 function isoDate(date: string): string | undefined {
   const ms = Date.parse(`${date} UTC`)
@@ -89,6 +98,11 @@ export default defineConfig({
 
   sitemap: {
     hostname,
+    transformItems: (items) =>
+      items.map((item) => {
+        const date = lastmod.get(new URL(item.url, `${hostname}/`).href)
+        return date ? { ...item, lastmod: date } : item
+      }),
   },
 
   head: [
@@ -98,18 +112,10 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/favicon.ico', sizes: '48x48' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' }],
     ['meta', { name: 'theme-color', content: '#e0701a' }],
-    ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'YariloMail' }],
-    // og:title, og:description and og:url are per page: see transformPageData.
-    // Social preview. Absolute URL is required — crawlers do not resolve
-    // relative paths.
-    ['meta', { property: 'og:image', content: `${hostname}/og.png` }],
-    ['meta', { property: 'og:image:type', content: 'image/png' }],
-    ['meta', { property: 'og:image:width', content: '1200' }],
-    ['meta', { property: 'og:image:height', content: '630' }],
-    ['meta', { property: 'og:image:alt', content: 'A user connecting a laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP' }],
+    // og:type, og:title, og:description, og:url and the image are per page:
+    // see transformPageData.
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:image', content: `${hostname}/og.png` }],
   ],
 
   transformPageData(pageData) {
@@ -125,18 +131,35 @@ export default defineConfig({
       ? fm.title || 'YariloMail'
       : `${fm.title} | YariloMail`
     const desc = fm.description || description
+    const isNews = pageData.relativePath.startsWith('news/')
+    // Absolute URL: crawlers do not resolve relative paths.
+    const image = `${hostname}${fm.image || ogImage}`
+    const published = fm.date ? isoDate(fm.date) : undefined
+    const modified = fm.updated ? isoDate(fm.updated) : published
     fm.head ??= []
     fm.head.push(
       ['link', { rel: 'canonical', href: canonical }],
+      ['meta', { property: 'og:type', content: isNews ? 'article' : 'website' }],
       ['meta', { property: 'og:url', content: canonical }],
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: desc }],
+      ['meta', { property: 'og:image', content: image }],
+      ['meta', { property: 'og:image:type', content: 'image/png' }],
+      ['meta', { property: 'og:image:width', content: '1200' }],
+      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { property: 'og:image:alt', content: fm.imageAlt || ogImageAlt }],
+      ['meta', { name: 'twitter:image', content: image }],
     )
+    if (isNews && published) {
+      fm.head.push(['meta', { property: 'article:published_time', content: published }])
+      fm.head.push(['meta', { property: 'article:modified_time', content: modified }])
+      lastmod.set(canonical, modified)
+    }
 
     let graph: object | undefined
     if (pageData.relativePath === 'index.md') {
       graph = homeGraph
-    } else if (pageData.relativePath.startsWith('news/')) {
+    } else if (isNews) {
       graph = {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
@@ -144,8 +167,9 @@ export default defineConfig({
         mainEntityOfPage: canonical,
         headline: fm.title,
         description: desc,
-        datePublished: fm.date ? isoDate(fm.date) : undefined,
-        image: `${hostname}/og.png`,
+        datePublished: published,
+        dateModified: modified,
+        image,
         author: organization,
         publisher: { '@id': orgId },
         inLanguage: 'en-US',

@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 import UnoCSS from 'unocss/vite'
 import unoConfig from './unocss.config.mts'
@@ -76,6 +78,46 @@ const ogImageAlt = 'A user connecting a laptop and phone to the YariloMail cloud
 // transformPageData and read when the sitemap is written.
 const lastmod = new Map<string, string>()
 
+// Every page's title and description, filled by transformPageData and written
+// to /llms.txt at buildEnd, so a new news post is listed without edits here.
+// Keyed by URL: the dev server runs transformPageData again on every edit.
+const llmsPages = new Map<string, { url: string; title: string; desc: string; date?: string }>()
+
+// https://llmstxt.org: a Markdown index of the site for language models.
+function buildLlmsTxt(outDir: string) {
+  const line = (p: { url: string; title: string; desc: string }) => `- [${p.title}](${p.url}): ${p.desc}`
+  const page = (path: string) => llmsPages.get(`${hostname}${path}`)
+  const news = [...llmsPages.values()]
+    .filter((p) => p.date)
+    .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+  const project = [page('/security'), page('/support')].filter((p) => p !== undefined)
+  const text = [
+    '# YariloMail',
+    '',
+    '> YariloMail (Yarilo) is an open-source mail server written in Go for',
+    '> Kubernetes: IMAP, POP3, LMTP, JMAP, ManageSieve and Submission, with',
+    '> built-in full-text search. Licensed under AGPL-3.0.',
+    '',
+    '## Documentation',
+    '',
+    '- [Documentation index](https://doc.yarilomail.org/llms.txt): every docs page with a summary',
+    '- [Full documentation](https://doc.yarilomail.org/llms-full.txt): all docs pages as one file',
+    '- [Installation](https://doc.yarilomail.org/INSTALL): Kubernetes with Helm, or Docker Compose',
+    '- [Feature coverage](https://doc.yarilomail.org/PARITY): what is complete, partial and absent',
+    '',
+    '## Project',
+    '',
+    '- [Source code](https://github.com/yarilomail/yarilo)',
+    '- [Releases](https://github.com/yarilomail/yarilo/releases)',
+    ...project.map(line),
+    '',
+    '## News',
+    '',
+    ...news.map(line),
+  ]
+  writeFileSync(join(outDir, 'llms.txt'), text.join('\n') + '\n')
+}
+
 // News frontmatter dates read "11 Oct 2026"; schema.org wants ISO 8601.
 function isoDate(date: string): string | undefined {
   const ms = Date.parse(`${date} UTC`)
@@ -150,6 +192,9 @@ export default defineConfig({
       ['meta', { property: 'og:image:alt', content: fm.imageAlt || ogImageAlt }],
       ['meta', { name: 'twitter:image', content: image }],
     )
+    if (pageData.relativePath !== 'index.md' && fm.title) {
+      llmsPages.set(canonical, { url: canonical, title: fm.title, desc, date: isNews ? published : undefined })
+    }
     if (isNews && published) {
       fm.head.push(['meta', { property: 'article:published_time', content: published }])
       fm.head.push(['meta', { property: 'article:modified_time', content: modified }])
@@ -178,6 +223,10 @@ export default defineConfig({
     if (graph) {
       fm.head.push(['script', { type: 'application/ld+json' }, JSON.stringify(graph)])
     }
+  },
+
+  buildEnd(siteConfig) {
+    buildLlmsTxt(siteConfig.outDir)
   },
 
   themeConfig: {

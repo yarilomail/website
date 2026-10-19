@@ -1,7 +1,5 @@
-// Renders a news post's social card (1200x630 PNG) from its frontmatter:
-//   node scripts/og-card.mjs main/news/<post>.md
-// Needs rsvg-convert and IBM Plex Sans visible to fontconfig; on macOS also set
-// PANGOCAIRO_BACKEND=fontconfig, or pango picks the font through CoreText.
+// Renders a news post's 1200x630 social card with rsvg-convert and IBM Plex Sans;
+// on macOS set PANGOCAIRO_BACKEND=fontconfig, or pango takes the font via CoreText.
 import { readFileSync, writeFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { basename, join } from 'node:path'
@@ -27,7 +25,8 @@ function wrap(text, max) {
   }
   return lines
 }
-const subLines = sub ? wrap(sub, 40).slice(0, 3) : []
+const subLines = sub ? wrap(sub, 40) : []
+if (subLines.length > 3) throw new Error(`${post}: the title after the colon wraps to ${subLines.length} lines; the card holds 3, shorten it`)
 const logo = readFileSync('main/public/favicon.svg').toString('base64')
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">

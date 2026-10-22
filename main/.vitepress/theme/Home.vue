@@ -19,7 +19,7 @@ import News from '../components/News.vue'
       </p>
       <div class="flex flex-wrap gap-4 pt-2">
         <a
-          href="https://doc.yarilomail.org/INSTALL"
+          href="https://doc.yarilomail.org/latest/installation/"
           class="inline-block bg-brand hover:bg-branddark text-white font-bold px-6 py-3 rounded transition-colors"
           rel="noopener"
           target="_blank"

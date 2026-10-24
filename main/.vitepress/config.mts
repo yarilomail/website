@@ -169,11 +169,14 @@ export default defineConfig({
     // Open Graph tags mirror the page's own <title> and meta description,
     // so a shared news link previews as that post, not as the home page.
     const fm = pageData.frontmatter
+    const isNews = pageData.relativePath.startsWith('news/')
+    // News titles already start with the brand; the suffix would only push
+    // them past the length search results show.
+    if (isNews) pageData.titleTemplate = fm.titleTemplate = false
     const title = fm.titleTemplate === false || !fm.title
       ? fm.title || 'YariloMail'
       : `${fm.title} | YariloMail`
     const desc = fm.description || description
-    const isNews = pageData.relativePath.startsWith('news/')
     // Absolute URL: crawlers do not resolve relative paths.
     const image = `${hostname}${fm.image || ogImage}`
     const published = fm.date ? isoDate(fm.date) : undefined

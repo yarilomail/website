@@ -24,3 +24,5 @@ jobs:
       run: npm run -w main test
     - name: Build with VitePress
       run: npm run -w main docs:build
+    - name: Check page titles
+      run: node scripts/check-titles.mjs main/.vitepress/dist

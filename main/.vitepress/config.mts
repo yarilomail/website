@@ -90,7 +90,7 @@ function buildLlmsTxt(outDir: string) {
   const news = [...llmsPages.values()]
     .filter((p) => p.date)
     .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
-  const project = [page('/security'), page('/support')].filter((p) => p !== undefined)
+  const project = [page('/security.html'), page('/support.html')].filter((p) => p !== undefined)
   const text = [
     '# YariloMail',
     '',
@@ -133,7 +133,6 @@ export default defineConfig({
   description,
   lang: 'en-US',
   base: '/',
-  cleanUrls: true,
   metaChunk: true,
   // lastUpdated is intentionally off: it shells out to `git`, which is not
   // present in the Docker build stage (no git binary, .git not in context).
@@ -161,11 +160,11 @@ export default defineConfig({
   ],
 
   transformPageData(pageData) {
-    // Per-page canonical link for clean, duplicate-free indexing. Must match
-    // cleanUrls and the sitemap: extensionless, no .html.
+    // Per-page canonical link for duplicate-free indexing. Must match the
+    // sitemap: pages end in .html, a directory index in /.
     const canonical = `${hostname}/${pageData.relativePath}`
       .replace(/index\.md$/, '')
-      .replace(/\.md$/, '')
+      .replace(/\.md$/, '.html')
     // Open Graph tags mirror the page's own <title> and meta description,
     // so a shared news link previews as that post, not as the home page.
     const fm = pageData.frontmatter
@@ -236,8 +235,8 @@ export default defineConfig({
     nav: [
       { text: 'Documentation', link: 'https://doc.yarilomail.org/' },
       { text: 'Releases', link: 'https://github.com/yarilomail/yarilo/releases' },
-      { text: 'Support', link: '/support' },
-      { text: 'Security', link: '/security' },
+      { text: 'Support', link: '/support.html' },
+      { text: 'Security', link: '/security.html' },
       { text: 'GitHub', link: 'https://github.com/yarilomail/yarilo' },
     ],
   },

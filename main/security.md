@@ -28,7 +28,7 @@ reproduce, and the impact you observed.
 
 We acknowledge a report within 7 days.
 
-For bugs that are not security issues, see [Support](/support).
+For bugs that are not security issues, see [Support](/support.html).
 
 ## Advisories
 

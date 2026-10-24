@@ -2,7 +2,7 @@
 description: "YariloMail 2.4.1 is the first stable release: configuration keys, the on-disk format and the meaning of the version number no longer change without notice."
 date: 04 Oct 2026
 title: "YariloMail 2.4.1: the first stable release"
-link: /news/2026-10-04-yarilo-2-4-1-stable
+link: /news/2026-10-04-yarilo-2-4-1-stable.html
 image: /news/2026-10-04-yarilo-2-4-1-stable.png
 imageAlt: "Card: YariloMail 2.4.1: the first stable release"
 ---

@@ -37,7 +37,7 @@
         <h2 class="type-h2">Security</h2>
         <p class="type-body">
           Found a vulnerability? See our
-          <a href="/security" class="underline hover:text-brand">security</a> page for
+          <a href="/security.html" class="underline hover:text-brand">security</a> page for
           responsible disclosure.
         </p>
       </div>

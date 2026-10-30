@@ -24,3 +24,9 @@ jobs:
       run: npm run -w main test
     - name: Build with VitePress
       run: npm run -w main docs:build
+    - name: Check page titles
+      run: node scripts/check-titles.mjs main/.vitepress/dist
+    - name: Check page links end in .html
+      run: node scripts/check-urls.mjs main/.vitepress/dist
+    - name: Check every page has one h1
+      run: node scripts/check-h1.mjs main/.vitepress/dist

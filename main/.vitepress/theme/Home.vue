@@ -117,7 +117,7 @@ import News from '../components/News.vue'
         </h3>
         <p class="type-body">
           Designed with security in mind at every layer. Report vulnerabilities via
-          our <a href="/security" class="underline hover:text-brand">security</a> page.
+          our <a href="/security.html" class="underline hover:text-brand">security</a> page.
         </p>
       </div>
 

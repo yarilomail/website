@@ -90,7 +90,7 @@ function buildLlmsTxt(outDir: string) {
   const news = [...llmsPages.values()]
     .filter((p) => p.date)
     .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
-  const project = [page('/security.html'), page('/support.html')].filter((p) => p !== undefined)
+  const project = [page('/security.html'), page('/support.html'), page('/donate.html')].filter((p) => p !== undefined)
   const text = [
     '# YariloMail',
     '',
@@ -237,6 +237,7 @@ export default defineConfig({
       { text: 'Releases', link: 'https://github.com/yarilomail/yarilo/releases' },
       { text: 'Support', link: '/support.html' },
       { text: 'Security', link: '/security.html' },
+      { text: 'Donate', link: '/donate.html' },
       { text: 'GitHub', link: 'https://github.com/yarilomail/yarilo' },
     ],
   },

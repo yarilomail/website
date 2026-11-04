@@ -4,5 +4,8 @@
   "private": true,
   "workspaces": [
     "main"
-  ]
+  ],
+  "overrides": {
+    "vite": "^6.4.5"
+  }
 }

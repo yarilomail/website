@@ -23,7 +23,7 @@ YariloMail 2.4.1 is out, and it is the first release we call **stable**. Until n
 
 IMAP4rev2 and IMAP4rev1, POP3, LMTP delivery, Submission, Sieve and ManageSieve are complete. JMAP is partial: it reads, synchronises and updates keywords, but does not create or delete messages yet. The [parity matrix](https://doc.yarilomail.org/latest/architecture/parity.html) says exactly what is complete, partial and absent.
 
-Each component is its own small process, and every deployment shape — a single host with Docker Compose, or a Kubernetes cluster with directors and sharded backends — is a configuration, not a different build. Internal traffic between components is now protected by mutual TLS with a role per component, and the Helm chart ships network policies for every internal port.
+Each component is its own small process, and every deployment shape (a single host with Docker Compose, or a Kubernetes cluster with directors and sharded backends) is a configuration, not a different build. Internal traffic between components is now protected by mutual TLS with a role per component, and the Helm chart ships network policies for every internal port.
 
 ## Upgrading
 

@@ -2,7 +2,7 @@ name: Deploy
 
 # Image is built on every push to main/develop (sha + latest tags).
 # A NEW versioned image tag (= Chart.yaml appVersion) is pushed only when that
-# version is new — i.e. bump helm/Chart.yaml to cut a new release. The deployed
+# version is new, i.e. bump helm/Chart.yaml to cut a new release. The deployed
 # image tag defaults to Chart.AppVersion in the chart, so ArgoCD rolls out the
 # new version once it is built. A GitHub release + git tag are created on main
 # for each new version.
@@ -105,7 +105,7 @@ jobs:
       # Tell Bing/Yandex/Seznam which URLs changed. Only on an actual release:
       # without a chart bump nothing new reaches production, so there is
       # nothing to re-crawl. The URL list is read from the live sitemap so it
-      # never goes stale as pages are added. Non-fatal — a failed ping must
+      # never goes stale as pages are added. Non-fatal: a failed ping must
       # not fail the build.
       - name: Notify IndexNow
         if: steps.version.outputs.is_release == 'true' && github.ref == 'refs/heads/main'

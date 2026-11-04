@@ -1,4 +1,4 @@
-name: security.txt expiry — website
+name: security.txt expiry - website
 
 # RFC 9116 makes Expires mandatory and says a file past that date is stale and
 # should not be trusted. Nothing else moves the date, so this keeps one open

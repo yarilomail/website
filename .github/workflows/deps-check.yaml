@@ -1,4 +1,4 @@
-name: Deps check — website
+name: Deps check - website
 
 on:
   schedule:

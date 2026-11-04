@@ -93,7 +93,7 @@ export default defineConfig({
   transformers: [transformerDirectives()],
   theme: {
     colors: {
-      // yarilomail palette — warm "sun" accent (Yarylo) over deep slate ink.
+      // yarilomail palette: warm "sun" accent (Yarylo) over deep slate ink.
       brand: '#e0701a',
       branddark: '#b8560f',
       ink,

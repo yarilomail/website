@@ -14,8 +14,8 @@ import News from '../components/News.vue'
       </p>
       <p class="type-body">
         A scalable, standards-compliant mail server speaking IMAP, POP3, JMAP,
-        Submission and SIEVE, with built-in full-text search — a drop-in
-        replacement for your current mail stack.
+        Submission, LMTP, ManageSieve and Sieve, with built-in full-text search:
+        a drop-in replacement for your current mail stack.
       </p>
       <div class="flex flex-wrap gap-4 pt-2">
         <a
@@ -138,7 +138,7 @@ import News from '../components/News.vue'
           Hybrid infrastructure
         </h3>
         <p class="type-body">
-          Runs across hybrid setups — on-prem, cloud or both — with mixed data
+          Runs across hybrid setups (on-prem, cloud or both) with mixed data
           storages: different mailbox formats and storage backends coexist in a
           single deployment.
         </p>
@@ -151,7 +151,7 @@ import News from '../components/News.vue'
         </h3>
         <p class="type-body">
           Isolate groups of users on dedicated backend groups, each with its own
-          storage type — tag-based separation within one cluster.
+          storage type: tag-based separation within one cluster.
         </p>
       </div>
 
@@ -161,7 +161,7 @@ import News from '../components/News.vue'
           Advanced API
         </h3>
         <p class="type-body">
-          A high-quality administration and automation API out of the box —
+          A high-quality administration and automation API out of the box to
           manage users, mailboxes and the cluster programmatically.
         </p>
       </div>

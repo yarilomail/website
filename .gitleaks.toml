@@ -1,7 +1,7 @@
 [extend]
 useDefault = true
 
-# Global allowlist (top-level array). NOT [[rules.allowlists]] — that binds the
+# Global allowlist (top-level array). NOT [[rules.allowlists]]: that binds the
 # entry to a rule and leaves a phantom rule with no id, which fails config load
 # under the gitleaks CLI ("rule |id| is missing or empty").
 [[allowlists]]

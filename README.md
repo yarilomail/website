@@ -71,8 +71,8 @@ TLS is issued by cert-manager (`letsencrypt-prod` ClusterIssuer, Cloudflare
 DNS-01). The origin sits behind Cloudflare; the ingress is restricted to
 Cloudflare IP ranges. Staging serves `X-Robots-Tag: noindex`.
 
-The Ingress carries the label `seconddns.com/cloudflare-whitelist: "true"`:
-the cluster's one cf-whitelist CronJob (in k8s_web) rewrites its
+The Ingress carries the label `cloudflare-whitelist: "true"`:
+the cluster's one cf-whitelist CronJob rewrites its
 `whitelist-source-range` from api.cloudflare.com every 6 hours, and both
 ArgoCD applications ignore that annotation, so `cloudflareWhitelist.ipRanges`
 is only the starting list.

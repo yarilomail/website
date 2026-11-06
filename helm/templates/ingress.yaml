@@ -6,8 +6,8 @@ metadata:
   labels:
     {{- include "yarilomail-web.labels" . | nindent 4 }}
     {{- if .Values.cloudflareWhitelist.enabled }}
-    # The cluster's cf-whitelist CronJob (k8s_web) keeps the annotation current.
-    seconddns.com/cloudflare-whitelist: "true"
+    # The cluster's cf-whitelist CronJob keeps the annotation current.
+    cloudflare-whitelist: "true"
     {{- end }}
   annotations:
     {{- if and .Values.ingress.tls .Values.ingress.certIssuer }}

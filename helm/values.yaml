@@ -25,7 +25,7 @@ ingress:
 # Restrict origin access to Cloudflare edge IPs (site is Cloudflare-proxied).
 # ipRanges is the starting list: the Ingress carries the label
 # cloudflare-whitelist, so the cluster's one cf-whitelist CronJob
-# (k8s_web) rewrites the annotation from api.cloudflare.com every 6 hours, and
+# rewrites the annotation from api.cloudflare.com every 6 hours, and
 # both ArgoCD applications ignore it.
 cloudflareWhitelist:
   enabled: true

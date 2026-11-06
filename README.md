@@ -71,6 +71,17 @@ TLS is issued by cert-manager (`letsencrypt-prod` ClusterIssuer, Cloudflare
 DNS-01). The origin sits behind Cloudflare; the ingress is restricted to
 Cloudflare IP ranges. Staging serves `X-Robots-Tag: noindex`.
 
+The Ingress carries the label `cloudflare-whitelist: "true"`:
+the cluster's one cf-whitelist CronJob rewrites its
+`whitelist-source-range` from api.cloudflare.com every 6 hours, and both
+ArgoCD applications ignore that annotation, so `cloudflareWhitelist.ipRanges`
+is only the starting list.
+
+nginx logs the client's address: `CF-Connecting-IP` is taken from requests
+that come from the pod network (`set_real_ip_from 10.0.0.0/8`, where the
+ingress controller is), so the log shows the visitor rather than the
+controller; kubelet probes carry no header and log their own address.
+
 On a production release the workflow also pings **IndexNow** (Bing, Yandex,
 Seznam) with the URLs read from the live sitemap. The verification key lives
 at `main/public/<key>.txt` and must stay reachable: deleting it breaks the

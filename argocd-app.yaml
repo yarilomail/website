@@ -18,12 +18,20 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: yarilomail
+  # The cluster's cf-whitelist CronJob keeps this annotation current;
+  # selfHeal must not put the chart's starting list back.
+  ignoreDifferences:
+    - group: networking.k8s.io
+      kind: Ingress
+      jsonPointers:
+        - /metadata/annotations/nginx.ingress.kubernetes.io~1whitelist-source-range
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
 ---
 # Staging: develop -> wwwdev.yarilomail.org
 apiVersion: argoproj.io/v1alpha1
@@ -45,9 +53,17 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: yarilomail
+  # The cluster's cf-whitelist CronJob keeps this annotation current;
+  # selfHeal must not put the chart's starting list back.
+  ignoreDifferences:
+    - group: networking.k8s.io
+      kind: Ingress
+      jsonPointers:
+        - /metadata/annotations/nginx.ingress.kubernetes.io~1whitelist-source-range
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true

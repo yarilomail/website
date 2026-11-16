@@ -4,3 +4,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # 1.30 is nginx's stable line; odd minors are mainline. Only the digest
+      # of 1.30-alpine moves; the next stable line is a deliberate change.
+      - dependency-name: nginx
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+      # Node moves with ci.yml and deps-check.yaml in one change.
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]

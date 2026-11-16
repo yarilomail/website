@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # --- build stage: render VitePress to static HTML ---
-FROM node:24-alpine AS build
+FROM node:26-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS build
 WORKDIR /src
 COPY package.json package-lock.json ./
 COPY main/package.json main/package.json

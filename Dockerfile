@@ -10,9 +10,13 @@ COPY . .
 RUN npm run -w main docs:build
 
 # --- runtime stage: serve static files with nginx ---
-FROM nginx:1.28-alpine AS runtime
+# The current stable nginx line, by digest; dependabot proposes newer ones.
+# nginx itself comes from nginx.org's packages, which apk upgrade does not touch.
+FROM nginx:1.30-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a AS runtime
 # The base's packages lag Alpine's security fixes between nginx releases.
 RUN apk upgrade --no-cache && mkdir -p /etc/nginx/conf.d/robots
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+# A config the new nginx rejects fails the build, not the rollout.
+RUN nginx -t
 COPY --from=build /src/main/.vitepress/dist /usr/share/nginx/html
 EXPOSE 80

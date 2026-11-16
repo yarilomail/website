@@ -11,7 +11,8 @@ RUN npm run -w main docs:build
 
 # --- runtime stage: serve static files with nginx ---
 FROM nginx:1.28-alpine AS runtime
-RUN mkdir -p /etc/nginx/conf.d/robots
+# The base's packages lag Alpine's security fixes between nginx releases.
+RUN apk upgrade --no-cache && mkdir -p /etc/nginx/conf.d/robots
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /src/main/.vitepress/dist /usr/share/nginx/html
 EXPOSE 80

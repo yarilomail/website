@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version: "26"
           cache: npm
 
       - name: Install dependencies
@@ -69,12 +69,32 @@ jobs:
               return;
             }
 
+            // One named install per package at the version its range allows
+            // (Wanted), in the workspace that depends on it (no -w for the root
+            // package). A Latest beyond Wanted is a new major version: listed
+            // for a decision, with no command.
+            const root = JSON.parse(require('fs').readFileSync('package.json', 'utf8')).name;
+            const installs = [], majors = [];
+            for (const l of updates.split('\n').slice(1).filter(l => l.trim())) {
+              const [name, current, wanted, latest] = l.trim().split(/\s+/);
+              const ws = l.trim().split(/\s+/).pop().replace(/@[^@]*$/, '');
+              if (current !== wanted) installs.push(`npm install ${ws === root ? '' : `-w ${ws} `}${name}@${wanted}`);
+              if (latest !== wanted) majors.push(`- ${name} ${wanted} to ${latest}`);
+            }
             const checked = new Date().toISOString().slice(0, 16).replace('T', ' ');
             const body = [
               'The following npm packages have newer versions available:',
               '', '```', updates, '```', '',
-              'To update, run:',
-              '```sh', 'npm update --workspaces --include-workspace-root && npm install', '```', '',
+              ...(installs.length ? [
+                'To update within the allowed ranges, install each package by name:',
+                '```sh', ...installs, '```', '',
+                'Not `npm update`: it ignores the root `overrides` and can take a pinned',
+                'package back to an older, vulnerable version.', '',
+              ] : []),
+              ...(majors.length ? [
+                'A new major version, outside the allowed range; needs a decision:',
+                ...majors, '',
+              ] : []),
               `_Last checked: ${checked} UTC_`,
             ].join('\n');
 

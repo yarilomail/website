@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # --- build stage: render VitePress to static HTML ---
-FROM node:24-alpine AS build
+FROM node:26-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS build
 WORKDIR /src
 COPY package.json package-lock.json ./
 COPY main/package.json main/package.json
@@ -10,8 +10,13 @@ COPY . .
 RUN npm run -w main docs:build
 
 # --- runtime stage: serve static files with nginx ---
-FROM nginx:1.28-alpine AS runtime
-RUN mkdir -p /etc/nginx/conf.d/robots
+# The current stable nginx line, by digest; dependabot proposes newer ones.
+# nginx itself comes from nginx.org's packages, which apk upgrade does not touch.
+FROM nginx:1.30-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a AS runtime
+# The base's packages lag Alpine's security fixes between nginx releases.
+RUN apk upgrade --no-cache && mkdir -p /etc/nginx/conf.d/robots
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+# A config the new nginx rejects fails the build, not the rollout.
+RUN nginx -t
 COPY --from=build /src/main/.vitepress/dist /usr/share/nginx/html
 EXPOSE 80

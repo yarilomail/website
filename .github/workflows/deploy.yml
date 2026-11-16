@@ -68,14 +68,39 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=${{ steps.version.outputs.image_tag }},enable=${{ steps.version.outputs.is_release == 'true' }}
 
-      - name: Build and push
+      - name: Build
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64
-          push: true
+          # Into the local daemon only: nothing is published before the scan.
+          push: false
+          load: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      ## The image about to be published, before any tag of it exists in a
+      ## registry: a finding stops the job with nothing pushed.
+      - name: Trivy - the image to publish
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ steps.build.outputs.imageid }}
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: true
+
+      ## The scanned image, tag by tag; each line names the digest the registry got.
+      - name: Push
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          printf '%s\n' "$TAGS" | while read -r tag; do
+            [ -n "$tag" ] || continue
+            docker push --quiet "$tag" >/dev/null
+            echo "$tag $(docker inspect --format '{{join .RepoDigests " "}}' "$tag")"
+          done
 
       # --- release: only on main, only when the version is new ---
       - name: Generate release notes

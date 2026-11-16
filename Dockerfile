@@ -12,7 +12,7 @@ RUN npm run -w main docs:build
 # --- runtime stage: serve static files with nginx ---
 # The current stable nginx line, by digest; dependabot proposes newer ones.
 # nginx itself comes from nginx.org's packages, which apk upgrade does not touch.
-FROM nginx:1.30-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a AS runtime
+FROM nginx:1.31-alpine@sha256:fed7e14be83cbd2661a75cdc5b872d936cf155d46c327084d30b8df19ae88d72 AS runtime
 # The base's packages lag Alpine's security fixes between nginx releases.
 RUN apk upgrade --no-cache && mkdir -p /etc/nginx/conf.d/robots
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf

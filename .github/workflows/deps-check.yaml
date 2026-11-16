@@ -69,12 +69,22 @@ jobs:
               return;
             }
 
+            // One named install per package at its latest version, in the
+            // workspace that depends on it (no -w for the root package).
+            const root = JSON.parse(require('fs').readFileSync('package.json', 'utf8')).name;
+            const installs = updates.split('\n').slice(1).filter(l => l.trim()).map(l => {
+              const f = l.trim().split(/\s+/);
+              const ws = f[f.length - 1].replace(/@[^@]*$/, '');
+              return `npm install ${ws === root ? '' : `-w ${ws} `}${f[0]}@${f[3]}`;
+            });
             const checked = new Date().toISOString().slice(0, 16).replace('T', ' ');
             const body = [
               'The following npm packages have newer versions available:',
               '', '```', updates, '```', '',
-              'To update, run:',
-              '```sh', 'npm update --workspaces --include-workspace-root && npm install', '```', '',
+              'To update, install each package by name:',
+              '```sh', ...installs, '```', '',
+              'Not `npm update`: it ignores the root `overrides` and can take a pinned',
+              'package back to an older, vulnerable version.', '',
               `_Last checked: ${checked} UTC_`,
             ].join('\n');
 

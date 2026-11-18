@@ -1,7 +1,7 @@
 ---
-title: "YariloMail: open-source mail server for IMAP, POP3, JMAP and more"
+title: "YariloMail: open-source mail server, IMAP, JMAP, Kubernetes"
 titleTemplate: false
-description: "YariloMail is an open-source mail server in Go for IMAP, POP3, JMAP, Submission, LMTP, ManageSieve and Sieve, with built-in full-text search, on one host or a Kubernetes cluster."
+description: "YariloMail is an open-source, self-hosted mail server in Go: IMAP, POP3, JMAP, Sieve and full-text search, on one host or a Kubernetes cluster."
 home: true
 ---
 

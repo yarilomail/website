@@ -1,5 +1,5 @@
 ---
-description: "The YariloMail website is launched: the home of the open-source mail server written in Go."
+description: "The YariloMail website is launched: the home of the open-source mail server written in Go, with release news, documentation, security advisories and support."
 date: 01 Aug 2026
 title: YariloMail website launched
 link: /news/2026-08-01-hello-world.html

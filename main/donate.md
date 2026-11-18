@@ -1,5 +1,5 @@
 ---
-title: Donate
+title: "Donate to an open-source mail server"
 description: "Support YariloMail, an independent open-source mail server: donate through Ko-fi, thanks.dev, Bitcoin, Ethereum or USDC on Solana."
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: "Get help with YariloMail, a community-driven open-source mail server: issue tracker on GitHub, documentation and security reporting."
-title: Support
+title: "Support and community help"
 support: true
 ---
 

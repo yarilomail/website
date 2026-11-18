@@ -1,6 +1,6 @@
 ---
 description: "Report a security vulnerability in YariloMail privately via GitHub or security@yarilomail.org, and read published security advisories."
-title: Security
+title: "Security: report a vulnerability, advisories"
 ---
 
 <script setup>

@@ -126,8 +126,8 @@ function isoDate(date: string): string | undefined {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  // Page titles render as "<page> | YariloMail"; the home page sets its own
-  // full title with titleTemplate: false.
+  // Every page title is "<subject> | YariloMail", the home page and the news
+  // posts included (see transformPageData).
   title: 'YariloMail',
   titleTemplate: ':title | YariloMail',
   description,
@@ -169,12 +169,14 @@ export default defineConfig({
     // so a shared news link previews as that post, not as the home page.
     const fm = pageData.frontmatter
     const isNews = pageData.relativePath.startsWith('news/')
-    // News titles already start with the brand; the suffix would only push
-    // them past the length search results show.
-    if (isNews) pageData.titleTemplate = fm.titleTemplate = false
-    const title = fm.titleTemplate === false || !fm.title
-      ? fm.title || 'YariloMail'
-      : `${fm.title} | YariloMail`
+    // One form for every page: "<subject> | YariloMail". A news headline
+    // opens with the brand; its page title carries the brand once, at the end.
+    // fm.title stays the headline for the post list, the card and JSON-LD.
+    const headline = fm.title ? String(fm.title) : ''
+    const bare = headline.replace(/^YariloMail\s+/, '')
+    const subject = isNews && bare ? bare[0].toUpperCase() + bare.slice(1) : headline
+    if (isNews && subject) pageData.title = subject
+    const title = subject ? `${subject} | YariloMail` : 'YariloMail'
     const desc = fm.description || description
     // Absolute URL: crawlers do not resolve relative paths.
     const image = `${hostname}${fm.image || ogImage}`

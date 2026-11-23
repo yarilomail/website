@@ -20,6 +20,9 @@ Licensed under **AGPLv3**, see [LICENSE](LICENSE).
 
 ---
 
+The rules for changing the site (pages, news posts, search metadata, versions,
+releases) are in [CLAUDE.md](CLAUDE.md).
+
 ## Structure
 
 npm workspace monorepo (one site for now, room for more subdomains later):

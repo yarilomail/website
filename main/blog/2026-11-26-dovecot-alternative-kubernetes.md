@@ -24,7 +24,7 @@ YariloMail is an open-source mail server written in Go for that case. It keeps t
 
 ## What is different
 
-**Every component is its own workload.** There is no master process and no single binary. Login proxies, session backends, authentication, connection accounting, locking and the quota policy service are separate binaries, each deployed as its own Deployment or StatefulSet. The crash of one pod does not take the others down, and Kubernetes restarts it.
+**Every component is its own workload.** On Kubernetes there is no master process: login proxies, session backends, authentication, connection accounting, locking and the quota policy service are separate binaries, each deployed as its own Deployment or StatefulSet. The crash of one pod does not take the others down, and Kubernetes restarts it.
 
 **Routing is built in.** The login proxies terminate TLS, authenticate, and ask the director which backend serves the user. The director answers from a consistent-hash ring, so a user's sessions land on one backend pod, and directors with more than one replica form a ring of their own to share that state. When a backend pod fails, the director routes its users to another pod that mounts the same storage. See [Director](https://doc.yarilomail.org/latest/architecture/director.html).
 

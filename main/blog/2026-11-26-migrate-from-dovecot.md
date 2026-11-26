@@ -96,10 +96,18 @@ The order matters: threading skips a message that has no GUID yet.
 
 ## After an adoption or an import: conversations
 
-Conversations are recorded at delivery time, so mail that was already in the store is in none until you say so. GUIDs came across on both routes, which leaves one command:
+Conversations are recorded at delivery time, so mail that was already in the store is in none until you say so. GUIDs came across on both routes, which leaves one command, run for one account first:
 
 ```sh
-yarilo-migrate --thread-backfill --config /etc/yarilo/yarilo.yaml --user alice@example.com --dry-run
+# 1. See what it would do, for one account.
+yarilo-migrate --thread-backfill --config /etc/yarilo/yarilo.yaml \
+               --user alice@example.com --dry-run
+
+# 2. Do it for that account, and check the result in a client.
+yarilo-migrate --thread-backfill --config /etc/yarilo/yarilo.yaml \
+               --user alice@example.com
+
+# 3. Then the rest, account by account or in one pass.
 yarilo-migrate --thread-backfill --config /etc/yarilo/yarilo.yaml
 ```
 

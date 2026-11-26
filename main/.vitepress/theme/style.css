@@ -17,3 +17,10 @@ a {
 .text-uppercase {
   text-transform: uppercase;
 }
+
+/* VitePress puts a copy button and a language label into every fenced code
+   block; this theme draws neither. */
+div[class*='language-'] > button.copy,
+div[class*='language-'] > span.lang {
+  display: none;
+}

@@ -74,22 +74,25 @@ const homeGraph = {
 const ogImage = '/og.png'
 const ogImageAlt = 'A user connecting a laptop and phone to the YariloMail cloud over IMAP, POP3, SIEVE, Submission and JMAP'
 
-// Each news page's last change (frontmatter `updated`, else `date`), filled by
+// Each news and blog post's last change (frontmatter `updated`, else `date`), filled by
 // transformPageData and read when the sitemap is written.
 const lastmod = new Map<string, string>()
 
 // Every page's title and description, filled by transformPageData and written
-// to /llms.txt at buildEnd, so a new news post is listed without edits here.
+// to /llms.txt at buildEnd, so a new post is listed without edits here.
 // Keyed by URL: the dev server runs transformPageData again on every edit.
-const llmsPages = new Map<string, { url: string; title: string; desc: string; date?: string }>()
+const llmsPages = new Map<string, { url: string; title: string; desc: string; date?: string; kind?: 'news' | 'blog' }>()
 
 // https://llmstxt.org: a Markdown index of the site for language models.
 function buildLlmsTxt(outDir: string) {
   const line = (p: { url: string; title: string; desc: string }) => `- [${p.title}](${p.url}): ${p.desc}`
   const page = (path: string) => llmsPages.get(`${hostname}${path}`)
-  const news = [...llmsPages.values()]
-    .filter((p) => p.date)
-    .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+  const posts = (kind: 'news' | 'blog') =>
+    [...llmsPages.values()]
+      .filter((p) => p.kind === kind)
+      .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+  const news = posts('news')
+  const blog = posts('blog')
   const project = [page('/security.html'), page('/support.html'), page('/donate.html')].filter((p) => p !== undefined)
   const text = [
     '# YariloMail',
@@ -111,6 +114,7 @@ function buildLlmsTxt(outDir: string) {
     '- [Releases](https://github.com/yarilomail/yarilo/releases)',
     ...project.map(line),
     '',
+    ...(blog.length ? ['## Blog', '', ...blog.map(line), ''] : []),
     '## News',
     '',
     ...news.map(line),
@@ -118,7 +122,7 @@ function buildLlmsTxt(outDir: string) {
   writeFileSync(join(outDir, 'llms.txt'), text.join('\n') + '\n')
 }
 
-// News frontmatter dates read "11 Oct 2026"; schema.org wants ISO 8601.
+// Post frontmatter dates read "11 Oct 2026"; schema.org wants ISO 8601.
 function isoDate(date: string): string | undefined {
   const ms = Date.parse(`${date} UTC`)
   return Number.isNaN(ms) ? undefined : new Date(ms).toISOString().slice(0, 10)
@@ -169,8 +173,11 @@ export default defineConfig({
     // so a shared news link previews as that post, not as the home page.
     const fm = pageData.frontmatter
     const isNews = pageData.relativePath.startsWith('news/')
+    const isBlog = pageData.relativePath.startsWith('blog/') && pageData.relativePath !== 'blog/index.md'
+    const isPost = isNews || isBlog
     // One form for every page: "<subject> | YariloMail". A news headline
     // opens with the brand; its page title carries the brand once, at the end.
+    // A blog headline has no brand in it and is the page's subject as written.
     // fm.title stays the headline for the post list, the card and JSON-LD.
     const headline = fm.title ? String(fm.title) : ''
     const bare = headline.replace(/^YariloMail\s+/, '')
@@ -185,7 +192,7 @@ export default defineConfig({
     fm.head ??= []
     fm.head.push(
       ['link', { rel: 'canonical', href: canonical }],
-      ['meta', { property: 'og:type', content: isNews ? 'article' : 'website' }],
+      ['meta', { property: 'og:type', content: isPost ? 'article' : 'website' }],
       ['meta', { property: 'og:url', content: canonical }],
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: desc }],
@@ -197,9 +204,15 @@ export default defineConfig({
       ['meta', { name: 'twitter:image', content: image }],
     )
     if (pageData.relativePath !== 'index.md' && fm.title) {
-      llmsPages.set(canonical, { url: canonical, title: fm.title, desc, date: isNews ? published : undefined })
+      llmsPages.set(canonical, {
+        url: canonical,
+        title: fm.title,
+        desc,
+        date: isPost ? published : undefined,
+        kind: isNews ? 'news' : isBlog ? 'blog' : undefined,
+      })
     }
-    if (isNews && published) {
+    if (isPost && published) {
       fm.head.push(['meta', { property: 'article:published_time', content: published }])
       fm.head.push(['meta', { property: 'article:modified_time', content: modified }])
       lastmod.set(canonical, modified)
@@ -208,7 +221,7 @@ export default defineConfig({
     let graph: object | undefined
     if (pageData.relativePath === 'index.md') {
       graph = homeGraph
-    } else if (isNews) {
+    } else if (isPost) {
       graph = {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
@@ -236,6 +249,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Documentation', link: 'https://doc.yarilomail.org/' },
+      { text: 'Blog', link: '/blog/' },
       { text: 'Releases', link: 'https://github.com/yarilomail/yarilo/releases' },
       { text: 'Support', link: '/support.html' },
       { text: 'Security', link: '/security.html' },

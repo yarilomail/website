@@ -20,8 +20,8 @@ Licensed under **AGPLv3**, see [LICENSE](LICENSE).
 
 ---
 
-The rules for changing the site (pages, news posts, search metadata, versions,
-releases) are in [CLAUDE.md](CLAUDE.md).
+The rules for changing the site (pages, news and blog posts, search metadata,
+versions, releases) are in [CLAUDE.md](CLAUDE.md).
 
 ## Structure
 
@@ -43,6 +43,7 @@ npm run -w main test          # unit tests (node:test)
 
 - `main/index.md` + `main/.vitepress/theme/Home.vue` - landing page
 - `main/news/*.md` - news entries (frontmatter: `date`, `title`, `link`)
+- `main/blog/*.md` - blog posts, listed at `/blog/` by `main/blog/index.md`
 - `main/security.md`, `main/support.md` - static pages
 - `main/.vitepress/data/advisories.json` - security advisories listed on
   `/security`, one object per advisory: `id` (CVE), `date` (`YYYY-MM-DD`),

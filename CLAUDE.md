@@ -3,7 +3,8 @@
 Extends the workspace-level `/CLAUDE.md`. All global rules apply.
 
 This repo (`yarilomail/website`) is the source of https://yarilomail.org: the
-landing page, the news posts and the Security, Support and Donate pages. The
+landing page, the news posts, the blog and the Security, Support and Donate
+pages. The
 product's documentation is not here: it lives in `yarilomail/documentation`
 and is published at https://doc.yarilomail.org.
 
@@ -16,7 +17,8 @@ deployment. This file holds the rules for changing the site.
 
 ## How changes reach the site
 
-1. Branch from fresh `develop` (`news/...`, `seo/...`, `fix/...`, `chore/...`).
+1. Branch from fresh `develop` (`news/...`, `blog/...`, `seo/...`, `fix/...`,
+   `chore/...`).
 2. Edit; build and run the checks locally (What is checked).
 3. Open a PR into `develop`, title and description in English. One open PR at
    a time.
@@ -35,7 +37,7 @@ Never push to `main` or `develop` directly.
 
 `version` and `appVersion` in `helm/Chart.yaml` move together, in the same PR
 as the change, whenever the built site or the image changes: a page, a news
-post, the theme, `.vitepress/config.mts`, the Dockerfile, the chart. The PR
+or blog post, the theme, `.vitepress/config.mts`, the Dockerfile, the chart. The PR
 title ends with the new version (`...; 0.1.52`).
 
 No bump for a change that does not reach the image: `README.md`, this file,
@@ -49,6 +51,8 @@ a workflow, a check script.
   pages; the advisories on Security come from
   `main/.vitepress/data/advisories.json`.
 - `main/news/*.md` are the news posts.
+- `main/blog/*.md` are the blog posts; `main/blog/index.md` is the page that
+  lists them, at `/blog/`.
 
 Every page:
 
@@ -105,6 +109,31 @@ description: "YariloMail 2.4.7 refuses cleartext passwords on an unsecured conne
 A published post keeps its headline. If it has to change, the card is made
 again, since the headline is drawn on it.
 
+## Blog posts
+
+The blog holds the longer articles: a migration, a protocol in practice, a
+measurement. A release is announced in the news, not here.
+
+A post is `main/blog/YYYY-MM-DD-<slug>.md`, the date being the day it is
+published, with the same frontmatter as a news post (`date`, `title`, `link`,
+`image`, `imageAlt`, `description`, and `updated` after a correction).
+
+- The slug says what the article is about in the words a person searches
+  with (`migrate-from-dovecot`). It is the URL and it is permanent.
+- `title` is the headline: the `# H1`, the line on `/blog/`, the text on the
+  card and the `headline` of the structured data. It does not open with the
+  brand: the page title is the headline with ` | YariloMail` appended, and
+  the two together fit 70 characters.
+- The card is made by `node scripts/og-card.mjs main/blog/<post>.md` and
+  lands in `main/public/blog/`. The headline is split at its first colon:
+  the part before it is drawn large and must fit one line of about 24
+  characters, the part after it three lines of about 40.
+- An article may name the server its reader is moving from, when the article
+  is about that move or about choosing between the two. It states what was
+  checked and links to the documentation page that carries the detail; it
+  does not copy that page.
+- `/blog/` lists every post by itself; nothing is added to it by hand.
+
 ## Search metadata
 
 What a search engine, a link preview and an AI crawler read from a page. Two
@@ -124,7 +153,8 @@ shows as its link.
 - Unique across the site.
 - No brand in it: the suffix carries the brand once. This holds for the home
   page too ("Open-source mail server: IMAP, JMAP, Kubernetes").
-- For a news post see News posts: there the field is the headline.
+- For a news post see News posts, for a blog post Blog posts: there the
+  field is the headline.
 
 **`description`** is the text under that link, on every page and every post.
 
@@ -153,17 +183,17 @@ block to a page's frontmatter for any of them.
 
 | What | Built from |
 |:---|:---|
-| `<title>` | `title` + ` \| YariloMail`; for a news post the headline without its leading brand |
+| `<title>` | `title` + ` \| YariloMail`; for a news post the headline without its leading brand; for a blog post the headline |
 | `<meta name="description">` | `description` |
 | `og:title` | the same text as `<title>` |
 | `og:description` | `description` |
 | `og:url`, `<link rel="canonical">` | the page's own URL, with `.html` |
-| `og:type` | `article` for a news post, `website` otherwise |
+| `og:type` | `article` for a news or blog post, `website` otherwise |
 | `og:image`, `twitter:image`, `og:image:alt` | a post's `image` and `imageAlt`; the site's card for every other page |
 | `article:published_time`, `article:modified_time` | a post's `date` and `updated` |
-| JSON-LD | the home page: `Organization`, `WebSite`, `SoftwareApplication`, `SoftwareSourceCode`; a news post: `BlogPosting` with the headline, the description and the dates |
+| JSON-LD | the home page: `Organization`, `WebSite`, `SoftwareApplication`, `SoftwareSourceCode`; a news or blog post: `BlogPosting` with the headline, the description and the dates |
 | `sitemap.xml` | every page, a post with its last-modified date |
-| `llms.txt` | the static pages and every post, each with its title and description |
+| `llms.txt` | the static pages and every news and blog post, each with its title and description |
 
 There is no `keywords` meta tag and none is to be added: search engines do
 not use it.

@@ -1,15 +1,15 @@
 ---
-date: 26 Nov 2026
+date: 03 Dec 2026
 title: "Dovecot alternative: IMAP and JMAP on Kubernetes"
-link: /blog/2026-11-26-dovecot-alternative-kubernetes.html
-image: /blog/2026-11-26-dovecot-alternative-kubernetes.png
+link: /blog/2026-12-03-dovecot-alternative-kubernetes.html
+image: /blog/2026-12-03-dovecot-alternative-kubernetes.png
 imageAlt: "Card: Dovecot alternative: IMAP and JMAP on Kubernetes"
 description: "YariloMail as a Dovecot alternative on Kubernetes: one workload per component, a director ring, IMAP and JMAP, and a plain list of what is not covered yet."
 ---
 
 # Dovecot alternative: IMAP and JMAP on Kubernetes
 
-*26 November 2026*
+*3 December 2026*
 
 Dovecot is the best-known open-source IMAP server, and for one server it needs no replacement. The question changes when the store has to run as a cluster: Dovecot CE 2.4 [removed the director and the replicator](https://doc.dovecot.org/main/installation/upgrade/2.3-to-2.4.html), which multi-server installations relied on.
 
